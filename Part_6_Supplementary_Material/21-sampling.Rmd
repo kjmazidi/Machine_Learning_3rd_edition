@@ -1,0 +1,119 @@
+---
+title: "Sampling"
+author: "Karen Mazidi"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Using a UCI data base: https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients#
+
+### Load data
+
+```{r}
+library(caret)
+
+default_full <- read.csv("data/default.csv", header=TRUE)
+default_full$default <- factor(default_full$default)
+summary(default_full$default)
+default_rate = nrow(default_full[default_full$default==1,]) / nrow(default_full)
+print(paste("default rate = ", default_rate))
+
+# limit columns 
+default_full <- default_full[,c(2:8,13,19,20,25)]
+```
+
+### Train and test
+
+```{r}
+set.seed(1234)
+i <- sample(1:nrow(default_full), 0.8*nrow(default_full), replace=FALSE)
+train_full <- default_full[i,]
+test <- default_full[-i,]
+```
+
+
+### Logistic Regression with all rows
+
+80%
+
+```{r}
+glm1 <- glm(default~., data=train_full, family=binomial)
+probs <- predict(glm1, newdata=test, type='response')
+pred <- ifelse(probs>0.5, 1, 0)
+confusionMatrix(pred, test$default)
+mean(pred==test$default)
+```
+
+### Reduce data set to 1000
+
+```{r}
+set.seed(1234)
+j <- sample(1:30000, 1000, replace=FALSE)
+df_1000_random <- default_full[j,]
+```
+
+### Logistic regression on random sample
+
+84%
+
+```{r}
+set.seed(1234)
+i <- sample(1:1000, 800, replace=FALSE)
+train <- df_1000_random[i,]
+test <- df_1000_random[-i,]
+glm2 <- glm(default~., data=train, family=binomial)
+probs <- predict(glm2, newdata=test, type='response')
+pred <- ifelse(probs>0.5, 1, 0)
+confusionMatrix(pred, test$default)
+mean(pred==test$default)
+
+```
+
+### Stratified sampling with caret
+
+The following code randomly samples 80% of the rows of the data set while preserving the distribution. 
+
+```{r}
+k <- createDataPartition(default_full$default, p=0.8, list=FALSE)
+```
+
+### Logistic regression on full data set with startified sampline
+
+```{r}
+train_k <- default_full[k,]
+test_k <- default_full[-k,]
+
+default_rate_k = nrow(train_k[train_k$default==1,]) / nrow(train_k)
+#same
+
+
+glm3 <- glm(default~., data=train_k, family=binomial)
+probs <- predict(glm3, newdata=test_k, type='response')
+pred <- ifelse(probs>0.5, 1, 0)
+confusionMatrix(pred, test_k$default)
+mean(pred==test_k$default)
+```
+
+### Make a more balanced data set
+
+We are going to make a train set that is smaller than the train set above but is more evenly distributed to see how that impacts the algorithm.
+
+As seen below, having 50% of each class lead to dramatically worse performance by logistic regression. 
+
+
+```{r}
+train_0 <- train_k[which(train_k$default==0),]
+train_1 <- train_k[which(train_k$default==1),]
+set.seed(1234)
+j <- sample(1:5300, 5000, replace=FALSE)
+train_bal <- rbind(train_0[j,], train_1[1:5000,])
+
+glm4 <- glm(default~., data=train_bal, family=binomial)
+probs <- predict(glm4, newdata=test_k, type='response')
+pred <- ifelse(probs>0.5, 1, 0)
+confusionMatrix(pred, test_k$default)
+mean(pred==test_k$default)
+```
+
+

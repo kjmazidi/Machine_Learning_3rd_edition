@@ -1,0 +1,94 @@
+# Sampling Techniques
+## Karen Mazidi
+
+Examples adapted from the ISLR book.
+
+This script gives examples of 3 sampling methods for optimizing a model:
+* Using a test set
+* Cross validation
+* Bootstrap
+
+Since we have used a test set in Homework 2, here we will cover cross validation and the bootstrap.
+
+# Cross Validation
+
+In k-fold cross validation, 1/k of the data is randomly selected k times. Commonly, 10-fold cross validation is used. 
+
+### Load the packages
+
+```{r}
+library(ISLR)
+library(boot)   # for CV
+```
+
+### Cross validation for a linear model
+
+We will use the cv.glm() function for k-fold cross validation, using 10 folds, k=10. For reproducible results, we set a seed then initialize a vector to hold the results of the 10-fold CV. The cv.glm() function produces two "delta" numbers. The first is the standard k-fold CV estimate (similar to MSE), the second is a biased-corrected version. 
+
+The following code loops through building a linear model for horsepower^i where i ranges from 1 (linear) to higher order polynomials. 
+
+We see from the cv error output that the degree-2 polynomial reduced errors compared to the degree-1 model, but that higher orders above 2 don't really reduce errors.
+
+
+```{r}
+set.seed(17)
+cv.error.10 <- rep(0,10)
+for (i in 1:10){
+  glm.fit <- glm(mpg~poly(horsepower, i), data=Auto)
+  cv.error.10[i] <- cv.glm(Auto, glm.fit, K=10)$delta[1]
+}
+cv.error.10
+```
+
+# The Bootstrap
+
+The bootstrap is a technique that can be applied to most algorithms. It only has 2 steps:
+
+1. create a function that computes a metric
+2. repeatedly sample observations from the data set with replacement
+
+The code below creates bootstrap estimates of the coefficient and intercept for the mode by randomly sampling from the observations with replacement.
+
+```{r}
+set.seed(1)
+boot.fn <- function (data, index){
+  return(coef(lm(mpg~horsepower, data=data, subset=index)))
+}
+
+# run the bootstrap 
+boot.fn(Auto, 1:392)
+
+
+```
+
+
+### the boot() function
+
+The code below uses the boot() function to compute the standard errors of 1,000 bootstrap estimates for the intercept and slope.
+
+We see that we got a standard error SE of .86 for the intercept and .0074 for the coefficient of horsepower. 
+
+```{r}
+boot(Auto, boot.fn, 1000)
+```
+
+Below we look at the coefficients from the linear model. We get similar estimates for the coefficients but the estimates for standard error SE are different. This is because the lm() function assumes a standard deviation for noise (errors) and in fact there was a non-linear shape to the errors. The bootstrap makes no such assumptions and so likely has a more realistic estimate of SE. 
+
+```{r}
+summary(lm(mpg~horsepower, data=Auto))$coeff
+```
+
+Next we try the boot with a quadratic model. Because the quadratic model is a better fit than the first model, we see a closer correspondence between the estimates of SE from lm() and the boot.
+
+```{r}
+boot.fn <- function(data, index) {
+  coefficients(lm(mpg~horsepower+I(horsepower^2), data=data, subset=index))
+}
+
+set.seed(1)
+boot(Auto, boot.fn, 1000)
+summary(lm(mpg~horsepower+I(horsepower^2), data=Auto))$coef
+  
+```
+
+

@@ -1,0 +1,61 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+# topic
+## Karen Mazidi
+
+In this notebook we are looking at the PUBG data set from Kaggle. The aggregate.zip file was downloaded, which contains information about matches from PlayerUnknown Battleground.
+
+
+
+### Load the ff package and dependencies
+
+```{r}
+require(ffbase)
+```
+
+### Load the data
+
+Using the arg VERBOSE=TRUE lets you know how it's progressing on the file. Otherwise you might think it hung up on a large file. This file took about 10 minutes to load, 667 to be more precise. The file on disk is 1.74 GB on disk, yet the R environment pane tells me that d is a large ffdf object of 12 elements and size 395.8 Mb. 
+
+```{r}
+d <- read.table.ffdf(file="data/pubg-match-deaths/deaths/kill_match_stats_final_0.csv", FUN="read.csv", header=TRUE, VERBOSE=TRUE, na.strings="")
+```
+
+### Data Exploration
+
+```{r}
+class(d)   # ffdf
+dim(d)     # 11,653,619 x 12
+str(d[1:10,])
+```
+
+#### More data exploration
+
+
+
+```{r}
+nrow(d[d$map=="MIRAMAR",])  # 2,081,300
+range(d$time)  # 28 2374
+length(unique(d$killer_name))  #2,394,679
+```
+
+
+```{r}
+par(mfrow=c(2,1))
+hist(cumsum.ff(d$victim_placement, na.rm=TRUE)[1:8], main="")    
+hist(cumsum.ff(d$killer_placement, na.rm=TRUE)[1:8], main="")    
+
+```
+#### Subset
+
+```{r}
+i <- sample(nrow(d), 1000, replace=FALSE)
+small_d <- d[i,]
+dim(small_d)  # 1000 x 12
+head(small_d, n=2)
+```
+
+

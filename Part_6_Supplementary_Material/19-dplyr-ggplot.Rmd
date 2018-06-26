@@ -1,0 +1,183 @@
+---
+title: "Introduction to dplyr and ggplot2"
+author: "Karen Mazidi"
+output:
+  pdf_document: default
+  html_notebook: default
+editor_options: 
+  chunk_output_type: console
+---
+## Explore dplyr
+
+### load dplyr and data
+
+The dplyr package was designed to be efficient with large data but we will demonstrate the basic features with a smaller data set from package mlbench.
+
+```{r, message=FALSE}
+library(dplyr)
+library(mlbench)
+data("PimaIndiansDiabetes2")
+```
+
+### tbl
+
+A tbl "tibble" is a data frame with enhanced features. Now when we type the name at the console we get a neater display of our data, one page at a time. 
+
+```{r}
+df <- tbl_df(PimaIndiansDiabetes2)
+rm(PimaIndiansDiabetes2)
+df
+```
+
+### glimpse
+
+The glimpse function is similar to str but can handle bigger data more efficiently.
+
+```{r}
+glimpse(df)
+```
+
+### 5 functions of dplyr
+
+* select - remove columns
+* mutate - create new columns from the data
+* filter - remove rows
+* arrange - rearrange rows
+* summarize or summarise - summary statistics
+
+These functions do not change the original data but return a new object. The functions assume that the data is already  "tidy" -- observations in rows, features in columns. 
+
+
+### select -- used to select columns
+
+Select a couple of columns to print. Notice it doesn't run off the screen, you get a screen's worth at a time. 
+
+```{r}
+print(select(df, diabetes, pregnant))
+```
+
+### mutate -- used to add columns
+
+Add a column that is a binary factor indicating if glucose is above average for the population.
+
+```{r}
+mutate(df, glucose_high = as.factor(ifelse(glucose>mean(glucose, na.rm=TRUE), 1, 0)))
+```
+
+### filter -- used to remove rows
+
+We replace df with a df that filtered out rows with NAs in the glucose or mass columns.
+
+```{r}
+df <- filter(df, !is.na(glucose), !is.na(mass))
+glimpse(df)
+```
+
+### arrange -- arrange rows based on content
+
+Arrange rows based on bmi as stored in the mass column. 
+
+```{r}
+arrange(df, mass)  # ascending order
+arrange(df, desc(mass)) # descending order
+```
+
+### summarize - a more powerful summary
+
+Get summary statistics on mass.
+
+```{r}
+summarize(df, min=min(mass), max=max(mass), sd(mass))
+summarize(df, n_diabetic = sum(diabetes=="pos"), n_not_diabetic = sum(diabetes=="neg"))
+```
+
+
+### pipes - work similar to unix pipes
+
+Pipes make code easier to read and let you make several commands in one neat group of lines instead of nesting functions in the typical R fashion. The pipe operator %>% comes from package magrittr but dplyr automatically loads it. 
+
+```{r}
+df %>%
+  group_by(diabetes) %>%
+  summarize(n_diabetic = n())
+
+```
+
+## Explore ggplot2
+
+Hadley Wickham developed ggplot2 in 2005, inspired by a grammar of graphics developed by Leland Wildinson in 1999. The ggplot2 functions are much more powerful than standard R graphs but also slower. 
+
+We have a short example below showing important components of building a ggplot. First we specify the data, then the aesthetics which are how the data is represented, followed by the geometry and finally labels.
+
+```{r, message=FALSE}
+library(ggplot2)
+# load data
+library(mlbench)
+data("PimaIndiansDiabetes2")
+df <- PimaIndiansDiabetes2[complete.cases(PimaIndiansDiabetes2[]),]
+
+ggplot(df, aes(x=mass, y=glucose)) +
+  geom_point() +
+  labs(title="Glucose and BMI", x="BMI", y="Glucose")
+```
+Next we add some color and a smoothing line which helps us see a trend in the data. By default the smoothing line has a shadow around it which specifies the 95
+
+```{r}
+ggplot(df, aes(x=mass, y=glucose)) +
+  geom_point(pch=20, color='blue', size=1.5) +
+  geom_smooth(method='lm', color='red', linetype=2) +
+  labs(title="Glucose and BMI", x="BMI", y="Glucose")
+```
+### facet_grid
+
+```{r}
+df$glucose_high <- factor(ifelse(df$glucose>mean(df$glucose, na.rm=TRUE), 1, 0),
+                           levels=c(0,1), labels=c("Glucose High","Glucose Not High"))
+df$insulin_high <- factor(ifelse(df$insulin>mean(df$insulin, na.rm=TRUE), 1, 0),
+                           levels=c(0,1), labels=c("Insulin High","Insulin Not High"))
+
+ggplot(df, 
+  aes(x=df$mass, y=df$age, shape=diabetes, col=pregnant)) +
+  geom_point(size=2) +
+  facet_grid(df$glucose_high~df$insulin_high)
+
+```
+### histogram
+
+```{r}
+ggplot(df, aes(x=mass)) +
+  geom_histogram(fill="cornsilk4")
+```
+
+### boxplot and rug
+
+```{r}
+ggplot(df, aes(x=diabetes, y=mass)) +
+  geom_boxplot(notch=TRUE) +
+  geom_point(position="jitter", color="cornflowerblue", alpha=.5) +
+  geom_rug(color="cornflowerblue")
+```
+
+### density plot
+
+```{r}
+ggplot(df, aes(x=mass, fill=diabetes)) +
+  geom_density(alpha=0.5)
+```
+### bubble chart
+
+```{r}
+ggplot(df, 
+       aes(x=mass, y=glucose, size=pregnant)) +
+  geom_point(shape=21, fill="cornflowerblue")
+```
+
+### grid
+
+```{r}
+library(gridExtra)
+p1 <- ggplot(df, aes(x=insulin_high)) + geom_bar(fill="cornflowerblue") 
+p2 <- ggplot(df, aes(x=glucose_high)) + geom_bar(fill="cornflowerblue")
+grid.arrange(p1, p2, ncol=2)
+```
+

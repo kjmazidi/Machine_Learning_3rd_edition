@@ -1,0 +1,42 @@
+---
+title: "Dates and Times in R"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+### Base R
+
+First let's look at dates and times in base R. First days. Note that you can do arithmetic on dates.
+
+```{r}
+hire_date <- as.Date("2016-09-01")
+days_employed <- Sys.Date() - hire_date
+print(days_employed)
+```
+Now let's look at time. You can do arithmetic on time as well. 
+
+```{r}
+birth_date <- as.Date("1989-04-18")
+difftime(Sys.Date(), birth_date, units="secs")
+```
+### Lubridate
+
+The lubridate package was created to simplify date and time processing.
+
+```{r}
+library(lubridate)
+today()
+now()
+```
+
+The airquality data has month and year columns. The documentation states that the year is 1973. We will put these together to create a date field. 
+
+```{r}
+df <- airquality[]
+df$date <- ymd(paste("1973",airquality$Month,airquality$Day))
+print(range(df$date))
+df$date[nrow(df)] - df$date[1]  # time difference
+```
+
