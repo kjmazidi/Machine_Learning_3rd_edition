@@ -1,0 +1,116 @@
+---
+title: "Decision Trees for Regression"
+author: "Karen Mazidi"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Try linear regression on Boston
+
+We get a correlation of 0.9 and a rmse of 4.35.
+
+
+```{r}
+library(tree)
+library(MASS)
+names(Boston)
+# divide into train and test
+set.seed(1234)
+i <- sample(nrow(Boston), 0.8*nrow(Boston), replace = FALSE)
+train <- Boston[i,]
+test <- Boston[-i,]
+lm1 <- lm(medv~., data=train)
+summary(lm1)
+pred <- predict(lm1, newdata=test)
+cor(pred, test$medv)
+rmse_lm <- sqrt(mean((pred-test$medv)^2))
+```
+
+### Using tree
+
+Correlation was 0.8433 and rmse was 5.14.
+
+```{r}
+tree1 <- tree(medv~., data=train)
+summary(tree1)
+pred <- predict(tree1, newdata=test)
+cor(pred, test$medv)
+rmse_tree <- sqrt(mean((pred-test$medv)^2))
+plot(tree1)
+text(tree1, cex=0.5, pretty=0)
+```
+
+
+### cross validation
+
+```{r}
+cv_tree <- cv.tree(tree1)
+plot(cv_tree$size, cv_tree$dev, type='b')
+```
+
+### prune the tree
+
+
+```{r}
+tree_pruned <- prune.tree(tree1, best=5)
+plot(tree_pruned)
+text(tree_pruned, pretty=0)
+```
+
+
+### test on the pruned tree
+
+The cor is now 0.845, very slightly above the unpruned tree but still lower than linear regression. The rmse is 5.18, very similar to the unpruned tree but higher than linear regression.
+
+In this case pruning did not improve results on the test data but the tree is simpler and easier to interpret.
+
+
+```{r}
+pred_pruned <- predict(tree_pruned, newdata=test)
+cor(pred_pruned, test$medv)
+rmse_pruned <- sqrt(mean((pred_pruned-test$medv)^2))
+```
+
+### bagging
+
+The importance=TRUE argument tells the algorithm to consider the importance of predictors. This effectively is the same as bagging.
+
+```{r}
+library(randomForest)
+set.seed(1234)
+tree_bagged <- randomForest(medv~., data=train, importance=TRUE)
+tree_bagged
+```
+
+
+### predict on the bagged tree
+
+Now the correlation is much higher than even linear regression and the rmse is almost half.
+
+```{r}
+pred_bag <- predict(tree_bagged, newdata=test)
+cor(pred_bag, test$medv)
+rmse_bag <- sqrt(mean((pred_bag-test$medv)^2))
+```
+
+
+### random forest
+
+Removing argument importance=TRUE will result in a random forest.
+
+```{r}
+tree_forest <- randomForest(medv~., data=train)
+tree_forest
+```
+
+### predict
+
+Our results for the random forest were slightly lower than for the bagging.
+
+```{r}
+pred_forest <- predict(tree_forest, newdata=test)
+cor(pred_forest, test$medv)
+rmse_rforest <- sqrt(mean((pred_forest-test$medv)^2))
+```
+

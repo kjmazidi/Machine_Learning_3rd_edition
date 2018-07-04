@@ -1,12 +1,8 @@
 ---
-title: 'Chapter 2: Using R Control Structures'
+title: 'Using R Control Structures'
 author: "Karen Mazidi"
 output:
   pdf_document: default
-  html_document:
-    df_print: paged
-editor_options:
-  chunk_output_type: console
 ---
 
 # Exploring R Control Structures with the PimaIndiansDiabetes2 data

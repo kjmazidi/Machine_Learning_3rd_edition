@@ -1,12 +1,10 @@
 ---
-title: "R Notebook"
+title: "Data Exploration with the Titanic Data"
 author: "Karen Mazidi"
 output:
   pdf_document: default
-  html_notebook: default
 ---
 
-# Data exploration in R with the Titanic data set.
 
 ### Load the data
 
@@ -23,6 +21,7 @@ The read.csv() function is a bit aggressive about making things factors. General
 We can change a column to a factor with as.factor() or change a column to integer with as.integer() as shown next.
 
 ```{r}
+df$survived <- as.factor(df$survived)
 df$pclass <- as.factor(df$pclass)
 df$sex <- factor(df$sex, levels=c("male", "female"))
 ```
@@ -38,5 +37,29 @@ The contrasts for pclass shows that we need 2 variables to encode 3 classes. The
 contrasts(df$pclass)
 contrasts(df$sex)
 ```
+
+### More exploration
+
+The head() and tail() functions let us look at the first or last few rows. 
+
+```{r}
+head(df)
+tail(df, n=10)
+```
+
+The summary() function can summarize an entire data set or individual columns.
+
+```{r}
+summary(df)
+summary(df$pclass)
+```
+
+The names() function is helpful if you forget the column names.
+
+```{r}
+names(df)
+summary(df$age)
+```
+
 
 That's all for now. We will revisit the Titanic data later when we explore classification algorithms: learning how to predict who survived and who didn't based on demographic data in the file.

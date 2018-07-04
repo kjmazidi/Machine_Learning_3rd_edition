@@ -1,13 +1,10 @@
 ---
-title: "R Notebook"
+title: "Data Exploration with the Boston Housing Data"
 author: "Karen Mazidi"
 output:
   pdf_document: default
-  html_document:
-    df_print: paged
 ---
 
-# Data exploration in R with the Boston data set.
 
 ### Load the package, installing if necessary
 

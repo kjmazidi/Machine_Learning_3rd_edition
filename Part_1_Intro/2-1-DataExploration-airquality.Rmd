@@ -1,13 +1,10 @@
 ---
-title: "R Notebook"
+title: "Data Exploration with the Airquality Data"
 author: "Karen Mazidi"
 output:
   pdf_document: default
-  html_document:
-    df_print: paged
 ---
 
-# Data exploration in R with the airquality data set.
 
 ### Load the data
 

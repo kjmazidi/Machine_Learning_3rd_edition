@@ -100,7 +100,4 @@ results3 <- table(pred, test$diabetes)
 results3
 acc3 <- mean(pred==as.integer(test$diabetes), na.rm=TRUE)
 sum(is.na(pred))  # 0
-anova(glm2, glm3)  # doesn't work - data not the same
-# glm2 residual deviance = 260.87 on 296 degrees of freedom
-# glm3 residual deviance = 548.18 on 572 degrees of freedom
-# these models are very similar 
+
