@@ -56,7 +56,7 @@ acc1
  
 ```{r}
 library(caret)
-confusionMatrix(pred1, as.integer(test$Class), positive="2")
+confusionMatrix(pred1, as.integer(test$Class), positive="1")
 ```
  
 
@@ -85,6 +85,6 @@ acc2
 Evaluate the results with the caret package.
 
 ```{r}
-confusionMatrix(pred2, test$Class, positive="malignant")
+confusionMatrix(pred2, test$Class, positive="benign")
 ```
 

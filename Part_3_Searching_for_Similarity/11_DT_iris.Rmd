@@ -1,7 +1,9 @@
 ---
 title: "Decision Tree with the Iris Data"
 author: "Karen Mazidi"
-output: pdf_document:
+output:
+  pdf_document: default
+  'pdf_document:': default
 ---
 
 ### Using rpart

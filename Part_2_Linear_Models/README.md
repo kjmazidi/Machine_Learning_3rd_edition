@@ -28,3 +28,6 @@
 
 ## Chapter 8: Data Wrangling
 
+* 8-1 Dealing with Time
+* 8-2 Dealing with Text using Package tm
+* 8-3 Dealing with Text using Package RTextTools

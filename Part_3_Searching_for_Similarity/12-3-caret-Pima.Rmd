@@ -1,0 +1,147 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Feature Selection
+## With the Caret Package
+## and the Pima data set
+### Karen Mazidi
+
+The [Caret](https://cran.r-project.org/web/packages/caret/caret.pdf) (classification and regression training) Package contains various functions for training and plotting classification and regression models. The documentation for this package is about 200 pages but we're just going to look at some funtions to help identify important predictors. 
+
+
+### Pima
+
+The Pima.tr (train) data set contains 200 observations about women of Pima Indian heritage. Column *type* is a Yes/No factor indicating a diabetes diagnosis. The other 7 columns are numeric predictors: number of pregnancies, glucose, blood pressure, skin thickness on arm, bmi, family history (ped), and age.
+
+The test set has 332 observations. 
+
+```{r}
+library(MASS)
+str(Pima.tr)
+dim(Pima.te)
+```
+### Naive Bayes
+
+First we try a naive bayes model on the data. We get 75.6% accuracy which is not bad. 
+
+```{r}
+library(e1071)
+nb1 <- naiveBayes(Pima.tr[,-8], Pima.tr[,8], data=Pima.tr)
+summary(nb1)
+pred <- predict(nb1, newdata=Pima.te[,-8], type="class")
+table(pred, Pima.te$type)
+acc1 <- mean(pred==Pima.te$type)
+acc1
+```
+
+## Look for highly correlated predictors
+
+Next we use the caret package to find highly correlated predictors. Column 4 (skin) was highly correlated wtih column 5 (bmi), which makes sense: if you are obese you probably can pinch more under the arms. The correlation there was about 0.66. It also flagged column 7 (age) as being highly correlated with column 1 (number of pregnancies). It does stand to reason that as time goes by, women have more pregnancies. The correlation was about 0.6.
+
+```{r}
+set.seed(1234)
+library(caret)
+
+corMatrix <- cor(Pima.tr[,1:7])
+corMatrix
+findCorrelation(corMatrix, cutoff=0.5, verbose=TRUE)
+```
+
+### Naive Bayes model 2
+
+Next we build another naive bayes model, this time omitting the highly correlated predictors.
+
+It seems that this improved our accuracy from .756 to .771
+
+```{r}
+nb2 <- naiveBayes(Pima.tr[,-c(1,3,8)], Pima.tr[,8], data=Pima.tr) # omit npreg, skin
+pred <- predict(nb2, newdata=Pima.te[,-c(1,3,8)], type="class")
+table(pred, Pima.te$type)
+mean(pred==Pima.te$type)
+```
+
+
+
+## Rank features by importance
+
+Caret also has functions to rank features by importance. 
+
+First, some control parameters are stored in variable ctrl. Next we combined the train and test sets with rbind to give the function more data. We also omitted the highly correlated predictors identified in the previous step. The varImp function gives us the variables, ranked by importance, which we can also plot. The train() method below used knn to learn feature importance. 
+
+```{r}
+ctrl <- trainControl(method="repeatedcv", repeats=5)
+Pima <- rbind(Pima.tr, Pima.te) # get all the data
+Pima <- Pima[,-c(4,7)]  # omit highly correlated predictors
+model <- train(type~., data=Pima, method="knn", preProcess="scale", trControl=ctrl)
+importance <- varImp(model, scale=FALSE)
+importance
+plot(importance)
+```
+
+### Recursive Feature Selection
+
+Another Caret function is rfe - recursive feature selection, which selects predictors based on importance ranking. It can be used to find a subset of features that are good predictors. The rfe() function below used cross validation.
+
+
+```{r}
+ctrl <- rfeControl(functions=rfFuncs, method="cv", number=10)
+Pima <- rbind(Pima.tr, Pima.te)
+rfe_out <- rfe(Pima[,1:7], Pima[,8], sizes=c(1:7), rfeControl=ctrl)
+rfe_out
+predictors(rfe_out)
+```
+
+### Naive Bayes model 3
+
+Next we build another naive bayes model, this time using the predictors 
+
+It seems that this improved our accuracy to 0.783, the highest of the 3 models. This represents a nearly 4% improvement over model 1.
+
+```{r}
+nb3 <- naiveBayes(Pima.tr[,-c(3, 4, 8)], Pima.tr[,8], data=Pima.tr) # omit bp, skin
+pred <- predict(nb3, newdata=Pima.te[,-c(3,4,8)], type="class")
+table(pred, Pima.te$type)
+acc3 <- mean(pred==Pima.te$type)
+acc3
+(acc3 - acc1)/acc1  # improvement
+```
+
+
+
+### Logistic Regression 
+
+The caret package proved helpful for selecting important features for the Naive Bayes model, but other algorithms in R include feature ranking as part of the function. As an example, we next build a logistic regression model.
+
+The logistic regression model got a higher accuracy than the naive bayes model 3. Further, it indicates that glucose was the most important feature, followed by ped, and then age and bmi. 
+
+
+```{r}
+glm1 <- glm(type~., data=Pima.tr, family="binomial")
+summary(glm1)
+probs <- predict(glm1, newdata=Pima.te, type='response')
+pred <- ifelse(probs>0.5, "Yes", "No")
+table(predicted=pred, actual=Pima.te$type)
+mean(pred==Pima.te$type)
+
+```
+
+## Logistic Regression Model 2
+
+Let's build another logistic regression model, using the same predictors as for naive bayes model 3.
+
+That didn't improve the model. For logistic regression, the built-in feature selection works fine.
+
+```{r}
+glm2 <- glm(type~npreg+glu+bmi+ped+age, data=Pima.tr, family="binomial")
+summary(glm2)
+probs <- predict(glm2, newdata=Pima.te, type='response')
+pred <- ifelse(probs>0.5, "Yes", "No")
+table(predicted=pred, actual=Pima.te$type)
+mean(pred==Pima.te$type)
+
+```
+
+The take-away is that if your R algorithm includes feature ranking, then let it select the features it finds most helpful. If your R algorithm does not rank featues, then it may be helpful to use Caret to identify the best predictors. This could be particularly important if there are large numbers of columns in the data set. 
+
