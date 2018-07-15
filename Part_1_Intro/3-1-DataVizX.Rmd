@@ -2,8 +2,10 @@
 title: "Data Visualization with the Titanic Data"
 author: "Karen Mazidi"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # Data exploration in R with the Titanic data set

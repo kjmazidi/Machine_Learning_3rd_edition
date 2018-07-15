@@ -124,6 +124,7 @@ plot(df_subset$age, df_subset$survived)
 If X and Y are both quantitative, scatter plots are recommended. Here we have crosses for the points in blue, 75% of the usual size. We would have to dig further into the Titanic data to understand this chart. Why do so many passengers seem to have a fare of 0? And why did a few passengers pay 500? Perhaps the 500 fares paid for several people and the 0 fares reflect passengers whose fares were paid by a spouse or parent or adult child? Further investigation is required to understand this. 
 
 ```{r}
+plot(df$age, df$fare, pch='+', cex=0.75, col="blue", xlab="Age", ylab="Fare")
 ```
 
 

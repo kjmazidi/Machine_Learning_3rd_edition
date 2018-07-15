@@ -239,98 +239,182 @@ test &lt;- df[-i,]</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShnbG0xKVxuYGBgIn0= -->
 <pre class="r"><code>summary(glm1)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxuZ2xtKGZvcm11bGEgPSBDbGFzcyB+IC4sIGZhbWlseSA9IGJpbm9taWFsLCBkYXRhID0gdHJhaW4pXG5cbkRldmlhbmNlIFJlc2lkdWFsczogXG4gICAgICAgTWluICAgICAgICAgIDFRICAgICAgTWVkaWFuICAgICAgICAgIDNRICAgICAgICAgTWF4ICBcbi00LjIzMmUtMDUgIC0yLjEwMGUtMDggIC0yLjEwMGUtMDggICAyLjEwMGUtMDggICA1LjAzOGUtMDUgIFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgeiB2YWx1ZSBQcig+fHp8KVxuKEludGVyY2VwdCkgICAgICAgLTEuNTE0ZSswMSAgMS41MTVlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNsLnRoaWNrbmVzcy5MICAgICA0LjEzOWUrMDEgIDEuODI4ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DbC50aGlja25lc3MuUSAgICAgMi40NzdlKzAxICA5LjU2M2UrMDQgICAwLjAwMCAgICAxLjAwMFxuQ2wudGhpY2tuZXNzLkMgICAgLTIuMjMxZS0wMSAgMS4yNzhlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNsLnRoaWNrbmVzc140ICAgIC00LjEwMmUrMDEgIDEuMzMxZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DbC50aGlja25lc3NeNSAgICAgNy44MDVlKzAwICAxLjU0NWUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2wudGhpY2tuZXNzXjYgICAgIDMuNjg1ZSswMSAgMS41MzllKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNsLnRoaWNrbmVzc143ICAgICA2LjgxMmUrMDAgIDEuMzEyZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DbC50aGlja25lc3NeOCAgICAtNC41NDVlKzAxICA3LjU5MWUrMDQgIC0wLjAwMSAgICAxLjAwMFxuQ2wudGhpY2tuZXNzXjkgICAgLTQuNTE4ZSswMSAgMS4wMzdlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2l6ZS5MICAgICAgICAxLjA5N2UrMDEgIDIuMTk0ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNpemUuUSAgICAgICAgNC4wODdlKzAxICAyLjE1MGUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaXplLkMgICAgICAgIDUuNDk2ZSswMCAgMS41NzFlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2l6ZV40ICAgICAgIC0zLjg3MGUrMDEgIDIuMDc5ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNpemVeNSAgICAgICAtMi4xMTNlKzAxICAxLjAwOGUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaXplXjYgICAgICAgLTQuMTMzZSswMSAgMi4zMDdlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2l6ZV43ICAgICAgIC0xLjkzMWUrMDEgIDEuMjA2ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNpemVeOCAgICAgICAgMi41NzBlKzAxICAxLjY5NWUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaXplXjkgICAgICAgIDguODEwZSswMCAgMi4xOTBlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2hhcGUuTCAgICAgICA2LjM2MGUrMDEgIDIuNTI2ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNoYXBlLlEgICAgICAtMy41NzhlKzAxICAxLjQ2NmUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaGFwZS5DICAgICAgLTQuOTg1ZSswMCAgMS43OTNlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2hhcGVeNCAgICAgICAyLjUzNGUrMDEgIDEuNzAwZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNoYXBlXjUgICAgICAtMy40NzFlKzAxICAyLjA5N2UrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaGFwZV42ICAgICAgIDIuMjIwZSswMSAgMS43ODRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkNlbGwuc2hhcGVeNyAgICAgICAyLjA2OGUrMDEgIDEuNDE4ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5DZWxsLnNoYXBlXjggICAgICAgNi4wMzdlKzAxICAxLjI2NGUrMDUgICAwLjAwMCAgICAxLjAwMFxuQ2VsbC5zaGFwZV45ICAgICAgIDIuMzc1ZSswMCAgMS4zMjRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb24uTCAgICA2LjgwMmUrMDEgIDEuOTMzZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uLlEgICAtMS4yNDhlKzAxICAxLjkwOWUrMDUgICAwLjAwMCAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbi5DICAgLTIuNjY5ZSswMSAgMS45OTNlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb25eNCAgIC03LjIyNmUrMDAgIDIuMDA5ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uXjUgICAgMi41NjRlKzAxICAzLjA3NGUrMDUgICAwLjAwMCAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbl42ICAgIDIuMTY3ZSswMSAgMi41NThlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb25eNyAgIC0yLjUwN2UrMDEgIDIuMjc5ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uXjggICAtMS42NjFlKzAxICAyLjYxN2UrMDUgICAwLjAwMCAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbl45ICAgIDguNDQ4ZSswMCAgMi4yMDZlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZS5MICAgIC00LjE0N2UrMDEgIDQuODQzZSswNSAgIDAuMDAwICAgIDEuMDAwXG5FcGl0aC5jLnNpemUuUSAgICAtMy41OTVlKzAwICAzLjcyNmUrMDUgICAwLjAwMCAgICAxLjAwMFxuRXBpdGguYy5zaXplLkMgICAgIDIuNDU0ZSswMSAgMS43MDZlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZV40ICAgICA2LjU5MmUrMDEgIDMuMDA2ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5FcGl0aC5jLnNpemVeNSAgICAgMy4yNjllKzAxICA0LjE1MmUrMDUgICAwLjAwMCAgICAxLjAwMFxuRXBpdGguYy5zaXplXjYgICAgIDIuMTEwZSswMSAgMy4zMzVlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZV43ICAgICA1LjczMWUrMDEgIDEuNzI0ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5FcGl0aC5jLnNpemVeOCAgICAgMi42OTllKzAxICAxLjM1M2UrMDUgICAwLjAwMCAgICAxLjAwMFxuRXBpdGguYy5zaXplXjkgICAgLTQuOTk5ZSswMCAgMS4xODZlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkJhcmUubnVjbGVpMiAgICAgICAxLjMwN2UrMDEgIDEuMDEyZSswNSAgIDAuMDAwICAgIDEuMDAwXG5CYXJlLm51Y2xlaTMgICAgICAgMy4wNDJlKzAxICA0LjUxMWUrMDQgICAwLjAwMSAgICAwLjk5OVxuQmFyZS5udWNsZWk0ICAgICAgIDMuNjQwZSswMSAgMS4xOTJlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkJhcmUubnVjbGVpNSAgICAgICA0LjEzMmUrMDEgIDIuNjExZSswNCAgIDAuMDAyICAgIDAuOTk5XG5CYXJlLm51Y2xlaTYgICAgICAgNS4xODRlKzAxICAzLjYxMWUrMDUgICAwLjAwMCAgICAxLjAwMFxuQmFyZS5udWNsZWk3ICAgICAgIDcuNzM1ZSswMSAgNC45NDNlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkJhcmUubnVjbGVpOCAgICAgICA0LjQ1NWUrMDEgIDEuNDE1ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5CYXJlLm51Y2xlaTkgICAgICAgMS4yOTBlKzAyICA1LjE5N2UrMDUgICAwLjAwMCAgICAxLjAwMFxuQmFyZS5udWNsZWkxMCAgICAgIDUuMDgyZSswMSAgNy4wMjBlKzA0ICAgMC4wMDEgICAgMC45OTlcbkJsLmNyb21hdGluMiAgICAgICAxLjQxN2UrMDEgIDEuMTI0ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5CbC5jcm9tYXRpbjMgICAgICAgMS4wNjZlKzAxICA1LjE3MGUrMDQgICAwLjAwMCAgICAxLjAwMFxuQmwuY3JvbWF0aW40ICAgICAgIDguOTk0ZSswMCAgMS4yNzRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkJsLmNyb21hdGluNSAgICAgIC00Ljg2OGUtMDEgIDcuMDIwZSswNCAgIDAuMDAwICAgIDEuMDAwXG5CbC5jcm9tYXRpbjYgICAgICAgMy42NjBlKzAxICAyLjY3M2UrMDUgICAwLjAwMCAgICAxLjAwMFxuQmwuY3JvbWF0aW43ICAgICAgIDQuNzI4ZSswMCAgMS41NDRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbkJsLmNyb21hdGluOCAgICAgICAxLjc0NmUrMDEgIDIuMjEwZSswNSAgIDAuMDAwICAgIDEuMDAwXG5CbC5jcm9tYXRpbjkgICAgICAtMS45MThlKzAxICAyLjIwM2UrMDUgICAwLjAwMCAgICAxLjAwMFxuQmwuY3JvbWF0aW4xMCAgICAgLTIuNTM2ZSswMSAgMy4yNDRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTIgIC0zLjM2OWUrMDEgIDIuMDk0ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGkzICAtMy4yMDhlLTAxICAxLjU5OWUrMDUgICAwLjAwMCAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpNCAgIDEuMzk3ZSswMSAgMS44MTRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTUgIC0xLjQyNWUrMDEgIDEuODE2ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGk2ICAgMi4wMzFlKzAxICAxLjk2M2UrMDUgICAwLjAwMCAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpNyAgLTMuNDczZSswMSAgMS41NzNlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTggIC0yLjY3OWUrMDEgIDQuNzI4ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGk5ICAgNy4wOTdlKzAxICAyLjA3MWUrMDUgICAwLjAwMCAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpMTAgIDEuODYyZSswMSAgMi4xNTRlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1pdG9zZXMyICAgICAgICAgICAzLjc2NWUrMDEgIDEuMTEyZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NaXRvc2VzMyAgICAgICAgICAgNS4zODJlKzAxICAxLjQ5MWUrMDUgICAwLjAwMCAgICAxLjAwMFxuTWl0b3NlczQgICAgICAgICAgLTEuMjY3ZSswMSAgMy4wODllKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1pdG9zZXM1ICAgICAgICAgIC00LjY0MmUrMDEgIDMuMTQ5ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NaXRvc2VzNiAgICAgICAgICAtMS4yMDdlKzAyICA0LjcxNGUrMDUgICAwLjAwMCAgICAxLjAwMFxuTWl0b3NlczcgICAgICAgICAgIDEuNjE4ZSswMSAgMS40NThlKzA1ICAgMC4wMDAgICAgMS4wMDBcbk1pdG9zZXM4ICAgICAgICAgIC0xLjE0NGUrMDEgIDMuMzQ5ZSswNSAgIDAuMDAwICAgIDEuMDAwXG5NaXRvc2VzMTAgICAgICAgICAgMS4zNTVlKzAyICAzLjQ0NGUrMDUgICAwLjAwMCAgICAxLjAwMFxuXG4oRGlzcGVyc2lvbiBwYXJhbWV0ZXIgZm9yIGJpbm9taWFsIGZhbWlseSB0YWtlbiB0byBiZSAxKVxuXG4gICAgTnVsbCBkZXZpYW5jZTogNi45NzUwZSswMiAgb24gNTQ4ICBkZWdyZWVzIG9mIGZyZWVkb21cblJlc2lkdWFsIGRldmlhbmNlOiAyLjI1NzhlLTA4ICBvbiA0NjggIGRlZ3JlZXMgb2YgZnJlZWRvbVxuICAoMTAgb2JzZXJ2YXRpb25zIGRlbGV0ZWQgZHVlIHRvIG1pc3NpbmduZXNzKVxuQUlDOiAxNjJcblxuTnVtYmVyIG9mIEZpc2hlciBTY29yaW5nIGl0ZXJhdGlvbnM6IDI1XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxuZ2xtKGZvcm11bGEgPSBDbGFzcyB+IC4sIGZhbWlseSA9IGJpbm9taWFsLCBkYXRhID0gdHJhaW4pXG5cbkRldmlhbmNlIFJlc2lkdWFsczogXG4gICAgICAgTWluICAgICAgICAgIDFRICAgICAgTWVkaWFuICAgICAgICAgIDNRICBcbi00LjIzMmUtMDUgIC0yLjEwMGUtMDggIC0yLjEwMGUtMDggICAyLjEwMGUtMDggIFxuICAgICAgIE1heCAgXG4gNS4wMzhlLTA1ICBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHogdmFsdWVcbihJbnRlcmNlcHQpICAgICAgIC0xLjUxNGUrMDEgIDEuNTE1ZSswNSAgIDAuMDAwXG5DbC50aGlja25lc3MuTCAgICAgNC4xMzllKzAxICAxLjgyOGUrMDUgICAwLjAwMFxuQ2wudGhpY2tuZXNzLlEgICAgIDIuNDc3ZSswMSAgOS41NjNlKzA0ICAgMC4wMDBcbkNsLnRoaWNrbmVzcy5DICAgIC0yLjIzMWUtMDEgIDEuMjc4ZSswNSAgIDAuMDAwXG5DbC50aGlja25lc3NeNCAgICAtNC4xMDJlKzAxICAxLjMzMWUrMDUgICAwLjAwMFxuQ2wudGhpY2tuZXNzXjUgICAgIDcuODA1ZSswMCAgMS41NDVlKzA1ICAgMC4wMDBcbkNsLnRoaWNrbmVzc142ICAgICAzLjY4NWUrMDEgIDEuNTM5ZSswNSAgIDAuMDAwXG5DbC50aGlja25lc3NeNyAgICAgNi44MTJlKzAwICAxLjMxMmUrMDUgICAwLjAwMFxuQ2wudGhpY2tuZXNzXjggICAgLTQuNTQ1ZSswMSAgNy41OTFlKzA0ICAtMC4wMDFcbkNsLnRoaWNrbmVzc145ICAgIC00LjUxOGUrMDEgIDEuMDM3ZSswNSAgIDAuMDAwXG5DZWxsLnNpemUuTCAgICAgICAgMS4wOTdlKzAxICAyLjE5NGUrMDUgICAwLjAwMFxuQ2VsbC5zaXplLlEgICAgICAgIDQuMDg3ZSswMSAgMi4xNTBlKzA1ICAgMC4wMDBcbkNlbGwuc2l6ZS5DICAgICAgICA1LjQ5NmUrMDAgIDEuNTcxZSswNSAgIDAuMDAwXG5DZWxsLnNpemVeNCAgICAgICAtMy44NzBlKzAxICAyLjA3OWUrMDUgICAwLjAwMFxuQ2VsbC5zaXplXjUgICAgICAgLTIuMTEzZSswMSAgMS4wMDhlKzA1ICAgMC4wMDBcbkNlbGwuc2l6ZV42ICAgICAgIC00LjEzM2UrMDEgIDIuMzA3ZSswNSAgIDAuMDAwXG5DZWxsLnNpemVeNyAgICAgICAtMS45MzFlKzAxICAxLjIwNmUrMDUgICAwLjAwMFxuQ2VsbC5zaXplXjggICAgICAgIDIuNTcwZSswMSAgMS42OTVlKzA1ICAgMC4wMDBcbkNlbGwuc2l6ZV45ICAgICAgICA4LjgxMGUrMDAgIDIuMTkwZSswNSAgIDAuMDAwXG5DZWxsLnNoYXBlLkwgICAgICAgNi4zNjBlKzAxICAyLjUyNmUrMDUgICAwLjAwMFxuQ2VsbC5zaGFwZS5RICAgICAgLTMuNTc4ZSswMSAgMS40NjZlKzA1ICAgMC4wMDBcbkNlbGwuc2hhcGUuQyAgICAgIC00Ljk4NWUrMDAgIDEuNzkzZSswNSAgIDAuMDAwXG5DZWxsLnNoYXBlXjQgICAgICAgMi41MzRlKzAxICAxLjcwMGUrMDUgICAwLjAwMFxuQ2VsbC5zaGFwZV41ICAgICAgLTMuNDcxZSswMSAgMi4wOTdlKzA1ICAgMC4wMDBcbkNlbGwuc2hhcGVeNiAgICAgICAyLjIyMGUrMDEgIDEuNzg0ZSswNSAgIDAuMDAwXG5DZWxsLnNoYXBlXjcgICAgICAgMi4wNjhlKzAxICAxLjQxOGUrMDUgICAwLjAwMFxuQ2VsbC5zaGFwZV44ICAgICAgIDYuMDM3ZSswMSAgMS4yNjRlKzA1ICAgMC4wMDBcbkNlbGwuc2hhcGVeOSAgICAgICAyLjM3NWUrMDAgIDEuMzI0ZSswNSAgIDAuMDAwXG5NYXJnLmFkaGVzaW9uLkwgICAgNi44MDJlKzAxICAxLjkzM2UrMDUgICAwLjAwMFxuTWFyZy5hZGhlc2lvbi5RICAgLTEuMjQ4ZSswMSAgMS45MDllKzA1ICAgMC4wMDBcbk1hcmcuYWRoZXNpb24uQyAgIC0yLjY2OWUrMDEgIDEuOTkzZSswNSAgIDAuMDAwXG5NYXJnLmFkaGVzaW9uXjQgICAtNy4yMjZlKzAwICAyLjAwOWUrMDUgICAwLjAwMFxuTWFyZy5hZGhlc2lvbl41ICAgIDIuNTY0ZSswMSAgMy4wNzRlKzA1ICAgMC4wMDBcbk1hcmcuYWRoZXNpb25eNiAgICAyLjE2N2UrMDEgIDIuNTU4ZSswNSAgIDAuMDAwXG5NYXJnLmFkaGVzaW9uXjcgICAtMi41MDdlKzAxICAyLjI3OWUrMDUgICAwLjAwMFxuTWFyZy5hZGhlc2lvbl44ICAgLTEuNjYxZSswMSAgMi42MTdlKzA1ICAgMC4wMDBcbk1hcmcuYWRoZXNpb25eOSAgICA4LjQ0OGUrMDAgIDIuMjA2ZSswNSAgIDAuMDAwXG5FcGl0aC5jLnNpemUuTCAgICAtNC4xNDdlKzAxICA0Ljg0M2UrMDUgICAwLjAwMFxuRXBpdGguYy5zaXplLlEgICAgLTMuNTk1ZSswMCAgMy43MjZlKzA1ICAgMC4wMDBcbkVwaXRoLmMuc2l6ZS5DICAgICAyLjQ1NGUrMDEgIDEuNzA2ZSswNSAgIDAuMDAwXG5FcGl0aC5jLnNpemVeNCAgICAgNi41OTJlKzAxICAzLjAwNmUrMDUgICAwLjAwMFxuRXBpdGguYy5zaXplXjUgICAgIDMuMjY5ZSswMSAgNC4xNTJlKzA1ICAgMC4wMDBcbkVwaXRoLmMuc2l6ZV42ICAgICAyLjExMGUrMDEgIDMuMzM1ZSswNSAgIDAuMDAwXG5FcGl0aC5jLnNpemVeNyAgICAgNS43MzFlKzAxICAxLjcyNGUrMDUgICAwLjAwMFxuRXBpdGguYy5zaXplXjggICAgIDIuNjk5ZSswMSAgMS4zNTNlKzA1ICAgMC4wMDBcbkVwaXRoLmMuc2l6ZV45ICAgIC00Ljk5OWUrMDAgIDEuMTg2ZSswNSAgIDAuMDAwXG5CYXJlLm51Y2xlaTIgICAgICAgMS4zMDdlKzAxICAxLjAxMmUrMDUgICAwLjAwMFxuQmFyZS5udWNsZWkzICAgICAgIDMuMDQyZSswMSAgNC41MTFlKzA0ICAgMC4wMDFcbkJhcmUubnVjbGVpNCAgICAgICAzLjY0MGUrMDEgIDEuMTkyZSswNSAgIDAuMDAwXG5CYXJlLm51Y2xlaTUgICAgICAgNC4xMzJlKzAxICAyLjYxMWUrMDQgICAwLjAwMlxuQmFyZS5udWNsZWk2ICAgICAgIDUuMTg0ZSswMSAgMy42MTFlKzA1ICAgMC4wMDBcbkJhcmUubnVjbGVpNyAgICAgICA3LjczNWUrMDEgIDQuOTQzZSswNSAgIDAuMDAwXG5CYXJlLm51Y2xlaTggICAgICAgNC40NTVlKzAxICAxLjQxNWUrMDUgICAwLjAwMFxuQmFyZS5udWNsZWk5ICAgICAgIDEuMjkwZSswMiAgNS4xOTdlKzA1ICAgMC4wMDBcbkJhcmUubnVjbGVpMTAgICAgICA1LjA4MmUrMDEgIDcuMDIwZSswNCAgIDAuMDAxXG5CbC5jcm9tYXRpbjIgICAgICAgMS40MTdlKzAxICAxLjEyNGUrMDUgICAwLjAwMFxuQmwuY3JvbWF0aW4zICAgICAgIDEuMDY2ZSswMSAgNS4xNzBlKzA0ICAgMC4wMDBcbkJsLmNyb21hdGluNCAgICAgICA4Ljk5NGUrMDAgIDEuMjc0ZSswNSAgIDAuMDAwXG5CbC5jcm9tYXRpbjUgICAgICAtNC44NjhlLTAxICA3LjAyMGUrMDQgICAwLjAwMFxuQmwuY3JvbWF0aW42ICAgICAgIDMuNjYwZSswMSAgMi42NzNlKzA1ICAgMC4wMDBcbkJsLmNyb21hdGluNyAgICAgICA0LjcyOGUrMDAgIDEuNTQ0ZSswNSAgIDAuMDAwXG5CbC5jcm9tYXRpbjggICAgICAgMS43NDZlKzAxICAyLjIxMGUrMDUgICAwLjAwMFxuQmwuY3JvbWF0aW45ICAgICAgLTEuOTE4ZSswMSAgMi4yMDNlKzA1ICAgMC4wMDBcbkJsLmNyb21hdGluMTAgICAgIC0yLjUzNmUrMDEgIDMuMjQ0ZSswNSAgIDAuMDAwXG5Ob3JtYWwubnVjbGVvbGkyICAtMy4zNjllKzAxICAyLjA5NGUrMDUgICAwLjAwMFxuTm9ybWFsLm51Y2xlb2xpMyAgLTMuMjA4ZS0wMSAgMS41OTllKzA1ICAgMC4wMDBcbk5vcm1hbC5udWNsZW9saTQgICAxLjM5N2UrMDEgIDEuODE0ZSswNSAgIDAuMDAwXG5Ob3JtYWwubnVjbGVvbGk1ICAtMS40MjVlKzAxICAxLjgxNmUrMDUgICAwLjAwMFxuTm9ybWFsLm51Y2xlb2xpNiAgIDIuMDMxZSswMSAgMS45NjNlKzA1ICAgMC4wMDBcbk5vcm1hbC5udWNsZW9saTcgIC0zLjQ3M2UrMDEgIDEuNTczZSswNSAgIDAuMDAwXG5Ob3JtYWwubnVjbGVvbGk4ICAtMi42NzllKzAxICA0LjcyOGUrMDUgICAwLjAwMFxuTm9ybWFsLm51Y2xlb2xpOSAgIDcuMDk3ZSswMSAgMi4wNzFlKzA1ICAgMC4wMDBcbk5vcm1hbC5udWNsZW9saTEwICAxLjg2MmUrMDEgIDIuMTU0ZSswNSAgIDAuMDAwXG5NaXRvc2VzMiAgICAgICAgICAgMy43NjVlKzAxICAxLjExMmUrMDUgICAwLjAwMFxuTWl0b3NlczMgICAgICAgICAgIDUuMzgyZSswMSAgMS40OTFlKzA1ICAgMC4wMDBcbk1pdG9zZXM0ICAgICAgICAgIC0xLjI2N2UrMDEgIDMuMDg5ZSswNSAgIDAuMDAwXG5NaXRvc2VzNSAgICAgICAgICAtNC42NDJlKzAxICAzLjE0OWUrMDUgICAwLjAwMFxuTWl0b3NlczYgICAgICAgICAgLTEuMjA3ZSswMiAgNC43MTRlKzA1ICAgMC4wMDBcbk1pdG9zZXM3ICAgICAgICAgICAxLjYxOGUrMDEgIDEuNDU4ZSswNSAgIDAuMDAwXG5NaXRvc2VzOCAgICAgICAgICAtMS4xNDRlKzAxICAzLjM0OWUrMDUgICAwLjAwMFxuTWl0b3NlczEwICAgICAgICAgIDEuMzU1ZSswMiAgMy40NDRlKzA1ICAgMC4wMDBcbiAgICAgICAgICAgICAgICAgIFByKD58enwpXG4oSW50ZXJjZXB0KSAgICAgICAgICAxLjAwMFxuQ2wudGhpY2tuZXNzLkwgICAgICAgMS4wMDBcbkNsLnRoaWNrbmVzcy5RICAgICAgIDEuMDAwXG5DbC50aGlja25lc3MuQyAgICAgICAxLjAwMFxuQ2wudGhpY2tuZXNzXjQgICAgICAgMS4wMDBcbkNsLnRoaWNrbmVzc141ICAgICAgIDEuMDAwXG5DbC50aGlja25lc3NeNiAgICAgICAxLjAwMFxuQ2wudGhpY2tuZXNzXjcgICAgICAgMS4wMDBcbkNsLnRoaWNrbmVzc144ICAgICAgIDEuMDAwXG5DbC50aGlja25lc3NeOSAgICAgICAxLjAwMFxuQ2VsbC5zaXplLkwgICAgICAgICAgMS4wMDBcbkNlbGwuc2l6ZS5RICAgICAgICAgIDEuMDAwXG5DZWxsLnNpemUuQyAgICAgICAgICAxLjAwMFxuQ2VsbC5zaXplXjQgICAgICAgICAgMS4wMDBcbkNlbGwuc2l6ZV41ICAgICAgICAgIDEuMDAwXG5DZWxsLnNpemVeNiAgICAgICAgICAxLjAwMFxuQ2VsbC5zaXplXjcgICAgICAgICAgMS4wMDBcbkNlbGwuc2l6ZV44ICAgICAgICAgIDEuMDAwXG5DZWxsLnNpemVeOSAgICAgICAgICAxLjAwMFxuQ2VsbC5zaGFwZS5MICAgICAgICAgMS4wMDBcbkNlbGwuc2hhcGUuUSAgICAgICAgIDEuMDAwXG5DZWxsLnNoYXBlLkMgICAgICAgICAxLjAwMFxuQ2VsbC5zaGFwZV40ICAgICAgICAgMS4wMDBcbkNlbGwuc2hhcGVeNSAgICAgICAgIDEuMDAwXG5DZWxsLnNoYXBlXjYgICAgICAgICAxLjAwMFxuQ2VsbC5zaGFwZV43ICAgICAgICAgMS4wMDBcbkNlbGwuc2hhcGVeOCAgICAgICAgIDEuMDAwXG5DZWxsLnNoYXBlXjkgICAgICAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbi5MICAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb24uUSAgICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uLkMgICAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbl40ICAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb25eNSAgICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uXjYgICAgICAxLjAwMFxuTWFyZy5hZGhlc2lvbl43ICAgICAgMS4wMDBcbk1hcmcuYWRoZXNpb25eOCAgICAgIDEuMDAwXG5NYXJnLmFkaGVzaW9uXjkgICAgICAxLjAwMFxuRXBpdGguYy5zaXplLkwgICAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZS5RICAgICAgIDEuMDAwXG5FcGl0aC5jLnNpemUuQyAgICAgICAxLjAwMFxuRXBpdGguYy5zaXplXjQgICAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZV41ICAgICAgIDEuMDAwXG5FcGl0aC5jLnNpemVeNiAgICAgICAxLjAwMFxuRXBpdGguYy5zaXplXjcgICAgICAgMS4wMDBcbkVwaXRoLmMuc2l6ZV44ICAgICAgIDEuMDAwXG5FcGl0aC5jLnNpemVeOSAgICAgICAxLjAwMFxuQmFyZS5udWNsZWkyICAgICAgICAgMS4wMDBcbkJhcmUubnVjbGVpMyAgICAgICAgIDAuOTk5XG5CYXJlLm51Y2xlaTQgICAgICAgICAxLjAwMFxuQmFyZS5udWNsZWk1ICAgICAgICAgMC45OTlcbkJhcmUubnVjbGVpNiAgICAgICAgIDEuMDAwXG5CYXJlLm51Y2xlaTcgICAgICAgICAxLjAwMFxuQmFyZS5udWNsZWk4ICAgICAgICAgMS4wMDBcbkJhcmUubnVjbGVpOSAgICAgICAgIDEuMDAwXG5CYXJlLm51Y2xlaTEwICAgICAgICAwLjk5OVxuQmwuY3JvbWF0aW4yICAgICAgICAgMS4wMDBcbkJsLmNyb21hdGluMyAgICAgICAgIDEuMDAwXG5CbC5jcm9tYXRpbjQgICAgICAgICAxLjAwMFxuQmwuY3JvbWF0aW41ICAgICAgICAgMS4wMDBcbkJsLmNyb21hdGluNiAgICAgICAgIDEuMDAwXG5CbC5jcm9tYXRpbjcgICAgICAgICAxLjAwMFxuQmwuY3JvbWF0aW44ICAgICAgICAgMS4wMDBcbkJsLmNyb21hdGluOSAgICAgICAgIDEuMDAwXG5CbC5jcm9tYXRpbjEwICAgICAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpMiAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTMgICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGk0ICAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpNSAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTYgICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGk3ICAgICAxLjAwMFxuTm9ybWFsLm51Y2xlb2xpOCAgICAgMS4wMDBcbk5vcm1hbC5udWNsZW9saTkgICAgIDEuMDAwXG5Ob3JtYWwubnVjbGVvbGkxMCAgICAxLjAwMFxuTWl0b3NlczIgICAgICAgICAgICAgMS4wMDBcbk1pdG9zZXMzICAgICAgICAgICAgIDEuMDAwXG5NaXRvc2VzNCAgICAgICAgICAgICAxLjAwMFxuTWl0b3NlczUgICAgICAgICAgICAgMS4wMDBcbk1pdG9zZXM2ICAgICAgICAgICAgIDEuMDAwXG5NaXRvc2VzNyAgICAgICAgICAgICAxLjAwMFxuTWl0b3NlczggICAgICAgICAgICAgMS4wMDBcbk1pdG9zZXMxMCAgICAgICAgICAgIDEuMDAwXG5cbihEaXNwZXJzaW9uIHBhcmFtZXRlciBmb3IgYmlub21pYWwgZmFtaWx5IHRha2VuIHRvIGJlIDEpXG5cbiAgICBOdWxsIGRldmlhbmNlOiA2Ljk3NTBlKzAyICBvbiA1NDggIGRlZ3JlZXMgb2YgZnJlZWRvbVxuUmVzaWR1YWwgZGV2aWFuY2U6IDIuMjU3OGUtMDggIG9uIDQ2OCAgZGVncmVlcyBvZiBmcmVlZG9tXG4gICgxMCBvYnNlcnZhdGlvbnMgZGVsZXRlZCBkdWUgdG8gbWlzc2luZ25lc3MpXG5BSUM6IDE2MlxuXG5OdW1iZXIgb2YgRmlzaGVyIFNjb3JpbmcgaXRlcmF0aW9uczogMjVcbiJ9 -->
 <pre><code>
 Call:
 glm(formula = Class ~ ., family = binomial, data = train)
 
 Deviance Residuals: 
-       Min          1Q      Median          3Q         Max  
--4.232e-05  -2.100e-08  -2.100e-08   2.100e-08   5.038e-05  
+       Min          1Q      Median          3Q  
+-4.232e-05  -2.100e-08  -2.100e-08   2.100e-08  
+       Max  
+ 5.038e-05  
 
 Coefficients:
-                    Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)       -1.514e+01  1.515e+05   0.000    1.000
-Cl.thickness.L     4.139e+01  1.828e+05   0.000    1.000
-Cl.thickness.Q     2.477e+01  9.563e+04   0.000    1.000
-Cl.thickness.C    -2.231e-01  1.278e+05   0.000    1.000
-Cl.thickness^4    -4.102e+01  1.331e+05   0.000    1.000
-Cl.thickness^5     7.805e+00  1.545e+05   0.000    1.000
-Cl.thickness^6     3.685e+01  1.539e+05   0.000    1.000
-Cl.thickness^7     6.812e+00  1.312e+05   0.000    1.000
-Cl.thickness^8    -4.545e+01  7.591e+04  -0.001    1.000
-Cl.thickness^9    -4.518e+01  1.037e+05   0.000    1.000
-Cell.size.L        1.097e+01  2.194e+05   0.000    1.000
-Cell.size.Q        4.087e+01  2.150e+05   0.000    1.000
-Cell.size.C        5.496e+00  1.571e+05   0.000    1.000
-Cell.size^4       -3.870e+01  2.079e+05   0.000    1.000
-Cell.size^5       -2.113e+01  1.008e+05   0.000    1.000
-Cell.size^6       -4.133e+01  2.307e+05   0.000    1.000
-Cell.size^7       -1.931e+01  1.206e+05   0.000    1.000
-Cell.size^8        2.570e+01  1.695e+05   0.000    1.000
-Cell.size^9        8.810e+00  2.190e+05   0.000    1.000
-Cell.shape.L       6.360e+01  2.526e+05   0.000    1.000
-Cell.shape.Q      -3.578e+01  1.466e+05   0.000    1.000
-Cell.shape.C      -4.985e+00  1.793e+05   0.000    1.000
-Cell.shape^4       2.534e+01  1.700e+05   0.000    1.000
-Cell.shape^5      -3.471e+01  2.097e+05   0.000    1.000
-Cell.shape^6       2.220e+01  1.784e+05   0.000    1.000
-Cell.shape^7       2.068e+01  1.418e+05   0.000    1.000
-Cell.shape^8       6.037e+01  1.264e+05   0.000    1.000
-Cell.shape^9       2.375e+00  1.324e+05   0.000    1.000
-Marg.adhesion.L    6.802e+01  1.933e+05   0.000    1.000
-Marg.adhesion.Q   -1.248e+01  1.909e+05   0.000    1.000
-Marg.adhesion.C   -2.669e+01  1.993e+05   0.000    1.000
-Marg.adhesion^4   -7.226e+00  2.009e+05   0.000    1.000
-Marg.adhesion^5    2.564e+01  3.074e+05   0.000    1.000
-Marg.adhesion^6    2.167e+01  2.558e+05   0.000    1.000
-Marg.adhesion^7   -2.507e+01  2.279e+05   0.000    1.000
-Marg.adhesion^8   -1.661e+01  2.617e+05   0.000    1.000
-Marg.adhesion^9    8.448e+00  2.206e+05   0.000    1.000
-Epith.c.size.L    -4.147e+01  4.843e+05   0.000    1.000
-Epith.c.size.Q    -3.595e+00  3.726e+05   0.000    1.000
-Epith.c.size.C     2.454e+01  1.706e+05   0.000    1.000
-Epith.c.size^4     6.592e+01  3.006e+05   0.000    1.000
-Epith.c.size^5     3.269e+01  4.152e+05   0.000    1.000
-Epith.c.size^6     2.110e+01  3.335e+05   0.000    1.000
-Epith.c.size^7     5.731e+01  1.724e+05   0.000    1.000
-Epith.c.size^8     2.699e+01  1.353e+05   0.000    1.000
-Epith.c.size^9    -4.999e+00  1.186e+05   0.000    1.000
-Bare.nuclei2       1.307e+01  1.012e+05   0.000    1.000
-Bare.nuclei3       3.042e+01  4.511e+04   0.001    0.999
-Bare.nuclei4       3.640e+01  1.192e+05   0.000    1.000
-Bare.nuclei5       4.132e+01  2.611e+04   0.002    0.999
-Bare.nuclei6       5.184e+01  3.611e+05   0.000    1.000
-Bare.nuclei7       7.735e+01  4.943e+05   0.000    1.000
-Bare.nuclei8       4.455e+01  1.415e+05   0.000    1.000
-Bare.nuclei9       1.290e+02  5.197e+05   0.000    1.000
-Bare.nuclei10      5.082e+01  7.020e+04   0.001    0.999
-Bl.cromatin2       1.417e+01  1.124e+05   0.000    1.000
-Bl.cromatin3       1.066e+01  5.170e+04   0.000    1.000
-Bl.cromatin4       8.994e+00  1.274e+05   0.000    1.000
-Bl.cromatin5      -4.868e-01  7.020e+04   0.000    1.000
-Bl.cromatin6       3.660e+01  2.673e+05   0.000    1.000
-Bl.cromatin7       4.728e+00  1.544e+05   0.000    1.000
-Bl.cromatin8       1.746e+01  2.210e+05   0.000    1.000
-Bl.cromatin9      -1.918e+01  2.203e+05   0.000    1.000
-Bl.cromatin10     -2.536e+01  3.244e+05   0.000    1.000
-Normal.nucleoli2  -3.369e+01  2.094e+05   0.000    1.000
-Normal.nucleoli3  -3.208e-01  1.599e+05   0.000    1.000
-Normal.nucleoli4   1.397e+01  1.814e+05   0.000    1.000
-Normal.nucleoli5  -1.425e+01  1.816e+05   0.000    1.000
-Normal.nucleoli6   2.031e+01  1.963e+05   0.000    1.000
-Normal.nucleoli7  -3.473e+01  1.573e+05   0.000    1.000
-Normal.nucleoli8  -2.679e+01  4.728e+05   0.000    1.000
-Normal.nucleoli9   7.097e+01  2.071e+05   0.000    1.000
-Normal.nucleoli10  1.862e+01  2.154e+05   0.000    1.000
-Mitoses2           3.765e+01  1.112e+05   0.000    1.000
-Mitoses3           5.382e+01  1.491e+05   0.000    1.000
-Mitoses4          -1.267e+01  3.089e+05   0.000    1.000
-Mitoses5          -4.642e+01  3.149e+05   0.000    1.000
-Mitoses6          -1.207e+02  4.714e+05   0.000    1.000
-Mitoses7           1.618e+01  1.458e+05   0.000    1.000
-Mitoses8          -1.144e+01  3.349e+05   0.000    1.000
-Mitoses10          1.355e+02  3.444e+05   0.000    1.000
+                    Estimate Std. Error z value
+(Intercept)       -1.514e+01  1.515e+05   0.000
+Cl.thickness.L     4.139e+01  1.828e+05   0.000
+Cl.thickness.Q     2.477e+01  9.563e+04   0.000
+Cl.thickness.C    -2.231e-01  1.278e+05   0.000
+Cl.thickness^4    -4.102e+01  1.331e+05   0.000
+Cl.thickness^5     7.805e+00  1.545e+05   0.000
+Cl.thickness^6     3.685e+01  1.539e+05   0.000
+Cl.thickness^7     6.812e+00  1.312e+05   0.000
+Cl.thickness^8    -4.545e+01  7.591e+04  -0.001
+Cl.thickness^9    -4.518e+01  1.037e+05   0.000
+Cell.size.L        1.097e+01  2.194e+05   0.000
+Cell.size.Q        4.087e+01  2.150e+05   0.000
+Cell.size.C        5.496e+00  1.571e+05   0.000
+Cell.size^4       -3.870e+01  2.079e+05   0.000
+Cell.size^5       -2.113e+01  1.008e+05   0.000
+Cell.size^6       -4.133e+01  2.307e+05   0.000
+Cell.size^7       -1.931e+01  1.206e+05   0.000
+Cell.size^8        2.570e+01  1.695e+05   0.000
+Cell.size^9        8.810e+00  2.190e+05   0.000
+Cell.shape.L       6.360e+01  2.526e+05   0.000
+Cell.shape.Q      -3.578e+01  1.466e+05   0.000
+Cell.shape.C      -4.985e+00  1.793e+05   0.000
+Cell.shape^4       2.534e+01  1.700e+05   0.000
+Cell.shape^5      -3.471e+01  2.097e+05   0.000
+Cell.shape^6       2.220e+01  1.784e+05   0.000
+Cell.shape^7       2.068e+01  1.418e+05   0.000
+Cell.shape^8       6.037e+01  1.264e+05   0.000
+Cell.shape^9       2.375e+00  1.324e+05   0.000
+Marg.adhesion.L    6.802e+01  1.933e+05   0.000
+Marg.adhesion.Q   -1.248e+01  1.909e+05   0.000
+Marg.adhesion.C   -2.669e+01  1.993e+05   0.000
+Marg.adhesion^4   -7.226e+00  2.009e+05   0.000
+Marg.adhesion^5    2.564e+01  3.074e+05   0.000
+Marg.adhesion^6    2.167e+01  2.558e+05   0.000
+Marg.adhesion^7   -2.507e+01  2.279e+05   0.000
+Marg.adhesion^8   -1.661e+01  2.617e+05   0.000
+Marg.adhesion^9    8.448e+00  2.206e+05   0.000
+Epith.c.size.L    -4.147e+01  4.843e+05   0.000
+Epith.c.size.Q    -3.595e+00  3.726e+05   0.000
+Epith.c.size.C     2.454e+01  1.706e+05   0.000
+Epith.c.size^4     6.592e+01  3.006e+05   0.000
+Epith.c.size^5     3.269e+01  4.152e+05   0.000
+Epith.c.size^6     2.110e+01  3.335e+05   0.000
+Epith.c.size^7     5.731e+01  1.724e+05   0.000
+Epith.c.size^8     2.699e+01  1.353e+05   0.000
+Epith.c.size^9    -4.999e+00  1.186e+05   0.000
+Bare.nuclei2       1.307e+01  1.012e+05   0.000
+Bare.nuclei3       3.042e+01  4.511e+04   0.001
+Bare.nuclei4       3.640e+01  1.192e+05   0.000
+Bare.nuclei5       4.132e+01  2.611e+04   0.002
+Bare.nuclei6       5.184e+01  3.611e+05   0.000
+Bare.nuclei7       7.735e+01  4.943e+05   0.000
+Bare.nuclei8       4.455e+01  1.415e+05   0.000
+Bare.nuclei9       1.290e+02  5.197e+05   0.000
+Bare.nuclei10      5.082e+01  7.020e+04   0.001
+Bl.cromatin2       1.417e+01  1.124e+05   0.000
+Bl.cromatin3       1.066e+01  5.170e+04   0.000
+Bl.cromatin4       8.994e+00  1.274e+05   0.000
+Bl.cromatin5      -4.868e-01  7.020e+04   0.000
+Bl.cromatin6       3.660e+01  2.673e+05   0.000
+Bl.cromatin7       4.728e+00  1.544e+05   0.000
+Bl.cromatin8       1.746e+01  2.210e+05   0.000
+Bl.cromatin9      -1.918e+01  2.203e+05   0.000
+Bl.cromatin10     -2.536e+01  3.244e+05   0.000
+Normal.nucleoli2  -3.369e+01  2.094e+05   0.000
+Normal.nucleoli3  -3.208e-01  1.599e+05   0.000
+Normal.nucleoli4   1.397e+01  1.814e+05   0.000
+Normal.nucleoli5  -1.425e+01  1.816e+05   0.000
+Normal.nucleoli6   2.031e+01  1.963e+05   0.000
+Normal.nucleoli7  -3.473e+01  1.573e+05   0.000
+Normal.nucleoli8  -2.679e+01  4.728e+05   0.000
+Normal.nucleoli9   7.097e+01  2.071e+05   0.000
+Normal.nucleoli10  1.862e+01  2.154e+05   0.000
+Mitoses2           3.765e+01  1.112e+05   0.000
+Mitoses3           5.382e+01  1.491e+05   0.000
+Mitoses4          -1.267e+01  3.089e+05   0.000
+Mitoses5          -4.642e+01  3.149e+05   0.000
+Mitoses6          -1.207e+02  4.714e+05   0.000
+Mitoses7           1.618e+01  1.458e+05   0.000
+Mitoses8          -1.144e+01  3.349e+05   0.000
+Mitoses10          1.355e+02  3.444e+05   0.000
+                  Pr(&gt;|z|)
+(Intercept)          1.000
+Cl.thickness.L       1.000
+Cl.thickness.Q       1.000
+Cl.thickness.C       1.000
+Cl.thickness^4       1.000
+Cl.thickness^5       1.000
+Cl.thickness^6       1.000
+Cl.thickness^7       1.000
+Cl.thickness^8       1.000
+Cl.thickness^9       1.000
+Cell.size.L          1.000
+Cell.size.Q          1.000
+Cell.size.C          1.000
+Cell.size^4          1.000
+Cell.size^5          1.000
+Cell.size^6          1.000
+Cell.size^7          1.000
+Cell.size^8          1.000
+Cell.size^9          1.000
+Cell.shape.L         1.000
+Cell.shape.Q         1.000
+Cell.shape.C         1.000
+Cell.shape^4         1.000
+Cell.shape^5         1.000
+Cell.shape^6         1.000
+Cell.shape^7         1.000
+Cell.shape^8         1.000
+Cell.shape^9         1.000
+Marg.adhesion.L      1.000
+Marg.adhesion.Q      1.000
+Marg.adhesion.C      1.000
+Marg.adhesion^4      1.000
+Marg.adhesion^5      1.000
+Marg.adhesion^6      1.000
+Marg.adhesion^7      1.000
+Marg.adhesion^8      1.000
+Marg.adhesion^9      1.000
+Epith.c.size.L       1.000
+Epith.c.size.Q       1.000
+Epith.c.size.C       1.000
+Epith.c.size^4       1.000
+Epith.c.size^5       1.000
+Epith.c.size^6       1.000
+Epith.c.size^7       1.000
+Epith.c.size^8       1.000
+Epith.c.size^9       1.000
+Bare.nuclei2         1.000
+Bare.nuclei3         0.999
+Bare.nuclei4         1.000
+Bare.nuclei5         0.999
+Bare.nuclei6         1.000
+Bare.nuclei7         1.000
+Bare.nuclei8         1.000
+Bare.nuclei9         1.000
+Bare.nuclei10        0.999
+Bl.cromatin2         1.000
+Bl.cromatin3         1.000
+Bl.cromatin4         1.000
+Bl.cromatin5         1.000
+Bl.cromatin6         1.000
+Bl.cromatin7         1.000
+Bl.cromatin8         1.000
+Bl.cromatin9         1.000
+Bl.cromatin10        1.000
+Normal.nucleoli2     1.000
+Normal.nucleoli3     1.000
+Normal.nucleoli4     1.000
+Normal.nucleoli5     1.000
+Normal.nucleoli6     1.000
+Normal.nucleoli7     1.000
+Normal.nucleoli8     1.000
+Normal.nucleoli9     1.000
+Normal.nucleoli10    1.000
+Mitoses2             1.000
+Mitoses3             1.000
+Mitoses4             1.000
+Mitoses5             1.000
+Mitoses6             1.000
+Mitoses7             1.000
+Mitoses8             1.000
+Mitoses10            1.000
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -372,17 +456,11 @@ acc1</code></pre>
 <p>Examine the results using the caret package.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShjYXJldClcbmBgYCJ9 -->
-<pre class="r"><code>library(caret)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShjYXJldClcbmNvbmZ1c2lvbk1hdHJpeChwcmVkMSwgYXMuaW50ZWdlcih0ZXN0JENsYXNzKSwgcG9zaXRpdmU9XCIyXCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(caret)
+confusionMatrix(pred1, as.integer(test$Class), positive=&quot;2&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDigJhjYXJldOKAmSB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDMuNC4zTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBsYXR0aWNlXG5Mb2FkaW5nIHJlcXVpcmVkIHBhY2thZ2U6IGdncGxvdDJcbiJ9 -->
-<pre><code>package ‘caret’ was built under R version 3.4.3Loading required package: lattice
-Loading required package: ggplot2</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uZnVzaW9uTWF0cml4KHByZWQxLCBhcy5pbnRlZ2VyKHRlc3QkQ2xhc3MpLCBwb3NpdGl2ZT1cIjFcIilcbmBgYCJ9 -->
-<pre class="r"><code>confusionMatrix(pred1, as.integer(test$Class), positive=&quot;1&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiQ29uZnVzaW9uIE1hdHJpeCBhbmQgU3RhdGlzdGljc1xuXG4gICAgICAgICAgUmVmZXJlbmNlXG5QcmVkaWN0aW9uICAxICAyXG4gICAgICAgICAxIDczICA3XG4gICAgICAgICAyICA0IDUwXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgIEFjY3VyYWN5IDogMC45MTc5ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICA5NSUgQ0kgOiAoMC44NTc5LCAwLjk1ODMpXG4gICAgTm8gSW5mb3JtYXRpb24gUmF0ZSA6IDAuNTc0NiAgICAgICAgICBcbiAgICBQLVZhbHVlIFtBY2MgPiBOSVJdIDogPDJlLTE2ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICBLYXBwYSA6IDAuODMwOSAgICAgICAgICBcbiBNY25lbWFyJ3MgVGVzdCBQLVZhbHVlIDogMC41NDY1ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICBTZW5zaXRpdml0eSA6IDAuOTQ4MSAgICAgICAgICBcbiAgICAgICAgICAgIFNwZWNpZmljaXR5IDogMC44NzcyICAgICAgICAgIFxuICAgICAgICAgUG9zIFByZWQgVmFsdWUgOiAwLjkxMjUgICAgICAgICAgXG4gICAgICAgICBOZWcgUHJlZCBWYWx1ZSA6IDAuOTI1OSAgICAgICAgICBcbiAgICAgICAgICAgICBQcmV2YWxlbmNlIDogMC41NzQ2ICAgICAgICAgIFxuICAgICAgICAgRGV0ZWN0aW9uIFJhdGUgOiAwLjU0NDggICAgICAgICAgXG4gICBEZXRlY3Rpb24gUHJldmFsZW5jZSA6IDAuNTk3MCAgICAgICAgICBcbiAgICAgIEJhbGFuY2VkIEFjY3VyYWN5IDogMC45MTI2ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgJ1Bvc2l0aXZlJyBDbGFzcyA6IDEgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiQ29uZnVzaW9uIE1hdHJpeCBhbmQgU3RhdGlzdGljc1xuXG4gICAgICAgICAgUmVmZXJlbmNlXG5QcmVkaWN0aW9uICAxICAyXG4gICAgICAgICAxIDczICA3XG4gICAgICAgICAyICA0IDUwXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgIEFjY3VyYWN5IDogMC45MTc5ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICA5NSUgQ0kgOiAoMC44NTc5LCAwLjk1ODMpXG4gICAgTm8gSW5mb3JtYXRpb24gUmF0ZSA6IDAuNTc0NiAgICAgICAgICBcbiAgICBQLVZhbHVlIFtBY2MgPiBOSVJdIDogPDJlLTE2ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICBLYXBwYSA6IDAuODMwOSAgICAgICAgICBcbiBNY25lbWFyJ3MgVGVzdCBQLVZhbHVlIDogMC41NDY1ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICBTZW5zaXRpdml0eSA6IDAuODc3MiAgICAgICAgICBcbiAgICAgICAgICAgIFNwZWNpZmljaXR5IDogMC45NDgxICAgICAgICAgIFxuICAgICAgICAgUG9zIFByZWQgVmFsdWUgOiAwLjkyNTkgICAgICAgICAgXG4gICAgICAgICBOZWcgUHJlZCBWYWx1ZSA6IDAuOTEyNSAgICAgICAgICBcbiAgICAgICAgICAgICBQcmV2YWxlbmNlIDogMC40MjU0ICAgICAgICAgIFxuICAgICAgICAgRGV0ZWN0aW9uIFJhdGUgOiAwLjM3MzEgICAgICAgICAgXG4gICBEZXRlY3Rpb24gUHJldmFsZW5jZSA6IDAuNDAzMCAgICAgICAgICBcbiAgICAgIEJhbGFuY2VkIEFjY3VyYWN5IDogMC45MTI2ICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgJ1Bvc2l0aXZlJyBDbGFzcyA6IDIgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIn0= -->
 <pre><code>Confusion Matrix and Statistics
 
           Reference
@@ -398,16 +476,16 @@ Prediction  1  2
                   Kappa : 0.8309          
  Mcnemar's Test P-Value : 0.5465          
                                           
-            Sensitivity : 0.9481          
-            Specificity : 0.8772          
-         Pos Pred Value : 0.9125          
-         Neg Pred Value : 0.9259          
-             Prevalence : 0.5746          
-         Detection Rate : 0.5448          
-   Detection Prevalence : 0.5970          
+            Sensitivity : 0.8772          
+            Specificity : 0.9481          
+         Pos Pred Value : 0.9259          
+         Neg Pred Value : 0.9125          
+             Prevalence : 0.4254          
+         Detection Rate : 0.3731          
+   Detection Prevalence : 0.4030          
       Balanced Accuracy : 0.9126          
                                           
-       'Positive' Class : 1               
+       'Positive' Class : 2               
                                           </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -460,10 +538,10 @@ acc2</code></pre>
 <p>Evaluate the results with the caret package.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uZnVzaW9uTWF0cml4KHByZWQyLCB0ZXN0JENsYXNzLCBwb3NpdGl2ZT1cImJlbmlnblwiKVxuYGBgIn0= -->
-<pre class="r"><code>confusionMatrix(pred2, test$Class, positive=&quot;benign&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uZnVzaW9uTWF0cml4KHByZWQyLCB0ZXN0JENsYXNzLCBwb3NpdGl2ZT1cIm1hbGlnbmFudFwiKVxuYGBgIn0= -->
+<pre class="r"><code>confusionMatrix(pred2, test$Class, positive=&quot;malignant&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiQ29uZnVzaW9uIE1hdHJpeCBhbmQgU3RhdGlzdGljc1xuXG4gICAgICAgICAgIFJlZmVyZW5jZVxuUHJlZGljdGlvbiAgYmVuaWduIG1hbGlnbmFudFxuICBiZW5pZ24gICAgICAgIDc4ICAgICAgICAgMVxuICBtYWxpZ25hbnQgICAgICA0ICAgICAgICA1N1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBBY2N1cmFjeSA6IDAuOTY0MyAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgOTUlIENJIDogKDAuOTE4NiwgMC45ODgzKVxuICAgIE5vIEluZm9ybWF0aW9uIFJhdGUgOiAwLjU4NTcgICAgICAgICAgXG4gICAgUC1WYWx1ZSBbQWNjID4gTklSXSA6IDwyZS0xNiAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgS2FwcGEgOiAwLjkyNyAgICAgICAgICAgXG4gTWNuZW1hcidzIFRlc3QgUC1WYWx1ZSA6IDAuMzcxMSAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgU2Vuc2l0aXZpdHkgOiAwLjk1MTIgICAgICAgICAgXG4gICAgICAgICAgICBTcGVjaWZpY2l0eSA6IDAuOTgyOCAgICAgICAgICBcbiAgICAgICAgIFBvcyBQcmVkIFZhbHVlIDogMC45ODczICAgICAgICAgIFxuICAgICAgICAgTmVnIFByZWQgVmFsdWUgOiAwLjkzNDQgICAgICAgICAgXG4gICAgICAgICAgICAgUHJldmFsZW5jZSA6IDAuNTg1NyAgICAgICAgICBcbiAgICAgICAgIERldGVjdGlvbiBSYXRlIDogMC41NTcxICAgICAgICAgIFxuICAgRGV0ZWN0aW9uIFByZXZhbGVuY2UgOiAwLjU2NDMgICAgICAgICAgXG4gICAgICBCYWxhbmNlZCBBY2N1cmFjeSA6IDAuOTY3MCAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICdQb3NpdGl2ZScgQ2xhc3MgOiBiZW5pZ24gICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiQ29uZnVzaW9uIE1hdHJpeCBhbmQgU3RhdGlzdGljc1xuXG4gICAgICAgICAgIFJlZmVyZW5jZVxuUHJlZGljdGlvbiAgYmVuaWduIG1hbGlnbmFudFxuICBiZW5pZ24gICAgICAgIDc4ICAgICAgICAgMVxuICBtYWxpZ25hbnQgICAgICA0ICAgICAgICA1N1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBBY2N1cmFjeSA6IDAuOTY0MyAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgOTUlIENJIDogKDAuOTE4NiwgMC45ODgzKVxuICAgIE5vIEluZm9ybWF0aW9uIFJhdGUgOiAwLjU4NTcgICAgICAgICAgXG4gICAgUC1WYWx1ZSBbQWNjID4gTklSXSA6IDwyZS0xNiAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgS2FwcGEgOiAwLjkyNyAgICAgICAgICAgXG4gTWNuZW1hcidzIFRlc3QgUC1WYWx1ZSA6IDAuMzcxMSAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgU2Vuc2l0aXZpdHkgOiAwLjk4MjggICAgICAgICAgXG4gICAgICAgICAgICBTcGVjaWZpY2l0eSA6IDAuOTUxMiAgICAgICAgICBcbiAgICAgICAgIFBvcyBQcmVkIFZhbHVlIDogMC45MzQ0ICAgICAgICAgIFxuICAgICAgICAgTmVnIFByZWQgVmFsdWUgOiAwLjk4NzMgICAgICAgICAgXG4gICAgICAgICAgICAgUHJldmFsZW5jZSA6IDAuNDE0MyAgICAgICAgICBcbiAgICAgICAgIERldGVjdGlvbiBSYXRlIDogMC40MDcxICAgICAgICAgIFxuICAgRGV0ZWN0aW9uIFByZXZhbGVuY2UgOiAwLjQzNTcgICAgICAgICAgXG4gICAgICBCYWxhbmNlZCBBY2N1cmFjeSA6IDAuOTY3MCAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICdQb3NpdGl2ZScgQ2xhc3MgOiBtYWxpZ25hbnQgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
 <pre><code>Confusion Matrix and Statistics
 
            Reference
@@ -479,16 +557,16 @@ Prediction  benign malignant
                   Kappa : 0.927           
  Mcnemar's Test P-Value : 0.3711          
                                           
-            Sensitivity : 0.9512          
-            Specificity : 0.9828          
-         Pos Pred Value : 0.9873          
-         Neg Pred Value : 0.9344          
-             Prevalence : 0.5857          
-         Detection Rate : 0.5571          
-   Detection Prevalence : 0.5643          
+            Sensitivity : 0.9828          
+            Specificity : 0.9512          
+         Pos Pred Value : 0.9344          
+         Neg Pred Value : 0.9873          
+             Prevalence : 0.4143          
+         Detection Rate : 0.4071          
+   Detection Prevalence : 0.4357          
       Balanced Accuracy : 0.9670          
                                           
-       'Positive' Class : benign          
+       'Positive' Class : malignant       
                                           </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -496,7 +574,7 @@ Prediction  benign malignant
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTmFpdmUgQmF5ZXMgd2l0aCB0aGUgQnJlYXN0IENhbmNlciBkYXRhIgphdXRob3I6ICJLYXJlbiBNYXppZGkiCm91dHB1dDoKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0Ci0tLQoKSW4gdGhpcyBub3RlYm9vayB3ZSBjb21wYXJlIE5haXZlIEJheWVzIGFuZCBsb2dpc3RpYyByZWdyZXNzaW9uIG9uIHRoZSBicmVhc3QgY2FuY2VyIGRhdGEgaW4gcGFja2FnZSBtbGJlbmNoLgoKIyMjIExvYWQgdGhlIGRhdGEKClRoZSBicmVhc3QgY2FuY2VyIGRhdGEgaXMgaW4gdGhlIG1sYmVuY2ggcGFja2FnZS4gVGhlcmUgYXJlIDY2OSBvYnNlcnZhdGlvbnMgd2l0aCAxMSBjb2x1bW5zLiBDb2x1bW4gMSBpcyBhbiBJRCB0aGF0IHdpbGwgYmUgaWdub3JlZCBsYXRlciwgY29sdW1ucyAyLTEwIGFyZSBmYWN0b3JzIHNwZWNpZnlpbmcgaW5mb3JtYXRpb24gZ2xlYW5lZCBmcm9tIGJpb3Bvc2llcy4gVGhlIGZpbmFsIGNvbHVtbiBpcyB0aGUgbGFiZWw6IGJlbmlnbiBvciBtYWxpZ25hbnQuIFRoZSBjbGFzcyBkaXN0cmlidXRpb24gaXMgNDU4IGJlbmlnbiB0byAyNDEgbWFsaWduYW50LCBhYm91dCA2NCUgYmVuaWduIHRvIDM2JSBtYWxpZ25hbnQuIAoKYGBge3J9CmxpYnJhcnkobWxiZW5jaCkKZGF0YShCcmVhc3RDYW5jZXIpCnN0cihCcmVhc3RDYW5jZXIpCnN1bW1hcnkoQnJlYXN0Q2FuY2VyJENsYXNzKQpgYGAKCgojIyMgRGl2aWRlIGRhdGEgaW50byB0cmFpbiwgdGVzdAoKRmlyc3QgcmVtb3ZlIHRoZSBJZCBjb2x1bW4sIHRoZW4gZGl2aWRlIGludG8gODAlIHRyYWluLCAyMCUgdGVzdC4gCgpgYGB7cn0Kc2V0LnNlZWQoMTIzNCkKZGYgPC0gQnJlYXN0Q2FuY2VyWywtMV0gIyByZW1vdmUgSUQKaSA8LSBzYW1wbGUoMTpucm93KGRmKSwgMC44Km5yb3coZGYpLCByZXBsYWNlPUZBTFNFKQp0cmFpbiA8LSBkZltpLF0KdGVzdCA8LSBkZlstaSxdCmBgYAoKIyMjIGxvZ2lzdGljIHJlZ3Jlc3Npb24KCkJ1aWxkIGEgbG9naXN0aWMgcmVncmVzc2lvbiBtb2RlbC4KCmBgYHtyfQpnbG0xIDwtIGdsbShDbGFzc34uLCBkYXRhPXRyYWluLCBmYW1pbHk9Ymlub21pYWwpCnN1bW1hcnkoZ2xtMSkKYGBgCgojIyMgVGVzdAoKRXZhbHVhdGUgb24gdGhlIHRlc3QgZGF0YS4gVGhlIGxvZ2lzdGljIHJlZ3Jlc3Npb24gbW9kZWwgZ2V0cyA5MiUgYWNjdXJhY3kuCgpgYGB7cn0KcHJvYnMxIDwtIHByZWRpY3QoZ2xtMSwgbmV3ZGF0YT10ZXN0LCB0eXBlPSJyZXNwb25zZSIpCnByZWQxIDwtIGlmZWxzZShwcm9iczE+MC41LCAyLCAxKQp0YWJsZShwcmVkMSwgdGVzdCRDbGFzcykKYWNjMSA8LSBtZWFuKHByZWQxPT1hcy5pbnRlZ2VyKHRlc3QkQ2xhc3MpLCBuYS5ybT1UUlVFKQphY2MxCmBgYAogRXhhbWluZSB0aGUgcmVzdWx0cyB1c2luZyB0aGUgY2FyZXQgcGFja2FnZS4KIApgYGB7cn0KbGlicmFyeShjYXJldCkKY29uZnVzaW9uTWF0cml4KHByZWQxLCBhcy5pbnRlZ2VyKHRlc3QkQ2xhc3MpLCBwb3NpdGl2ZT0iMSIpCmBgYAogCgoKIyMjIEJ1aWxkIGEgTmFpdmUgQmF5ZXMgY2xhc3NpZmllcgoKVXNlIHRoZSBzYW1lIHRlc3QgYW5kIHRyYWluIGRhdGEgZm9yIGNvbXBhcmlzb24uCgpgYGB7cn0KbGlicmFyeShlMTA3MSkKbmIxIDwtIG5haXZlQmF5ZXModHJhaW5bLC0xMF0sIHRyYWluWywxMF0pCnN1bW1hcnkobmIxKQpgYGAKCiMjIyBFdmFsdWF0ZSBvbiB0aGUgdGVzdCBkYXRhCgpUaGUgTmFpdmUgQmF5ZXMgbW9kZWwgZ2V0cyA5NlwlIGFjY3VyYWN5LiAKCmBgYHtyfQpwcmVkMiA8LSBwcmVkaWN0KG5iMSwgbmV3ZGF0YT10ZXN0WywtMTBdLCB0eXBlPSJjbGFzcyIpCnRhYmxlKHByZWQyLCB0ZXN0JENsYXNzKQphY2MyIDwtIG1lYW4ocHJlZDI9PXRlc3QkQ2xhc3MpCmFjYzIKYGBgCgpFdmFsdWF0ZSB0aGUgcmVzdWx0cyB3aXRoIHRoZSBjYXJldCBwYWNrYWdlLgoKYGBge3J9CmNvbmZ1c2lvbk1hdHJpeChwcmVkMiwgdGVzdCRDbGFzcywgcG9zaXRpdmU9ImJlbmlnbiIpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTmFpdmUgQmF5ZXMgd2l0aCB0aGUgQnJlYXN0IENhbmNlciBkYXRhIgphdXRob3I6ICJLYXJlbiBNYXppZGkiCm91dHB1dDoKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0Ci0tLQoKSW4gdGhpcyBub3RlYm9vayB3ZSBjb21wYXJlIE5haXZlIEJheWVzIGFuZCBsb2dpc3RpYyByZWdyZXNzaW9uIG9uIHRoZSBicmVhc3QgY2FuY2VyIGRhdGEgaW4gcGFja2FnZSBtbGJlbmNoLgoKIyMjIExvYWQgdGhlIGRhdGEKClRoZSBicmVhc3QgY2FuY2VyIGRhdGEgaXMgaW4gdGhlIG1sYmVuY2ggcGFja2FnZS4gVGhlcmUgYXJlIDY2OSBvYnNlcnZhdGlvbnMgd2l0aCAxMSBjb2x1bW5zLiBDb2x1bW4gMSBpcyBhbiBJRCB0aGF0IHdpbGwgYmUgaWdub3JlZCBsYXRlciwgY29sdW1ucyAyLTEwIGFyZSBmYWN0b3JzIHNwZWNpZnlpbmcgaW5mb3JtYXRpb24gZ2xlYW5lZCBmcm9tIGJpb3Bvc2llcy4gVGhlIGZpbmFsIGNvbHVtbiBpcyB0aGUgbGFiZWw6IGJlbmlnbiBvciBtYWxpZ25hbnQuIFRoZSBjbGFzcyBkaXN0cmlidXRpb24gaXMgNDU4IGJlbmlnbiB0byAyNDEgbWFsaWduYW50LCBhYm91dCA2NCUgYmVuaWduIHRvIDM2JSBtYWxpZ25hbnQuIAoKYGBge3J9CmxpYnJhcnkobWxiZW5jaCkKZGF0YShCcmVhc3RDYW5jZXIpCnN0cihCcmVhc3RDYW5jZXIpCnN1bW1hcnkoQnJlYXN0Q2FuY2VyJENsYXNzKQpgYGAKCgojIyMgRGl2aWRlIGRhdGEgaW50byB0cmFpbiwgdGVzdAoKRmlyc3QgcmVtb3ZlIHRoZSBJZCBjb2x1bW4sIHRoZW4gZGl2aWRlIGludG8gODAlIHRyYWluLCAyMCUgdGVzdC4gCgpgYGB7cn0Kc2V0LnNlZWQoMTIzNCkKZGYgPC0gQnJlYXN0Q2FuY2VyWywtMV0gIyByZW1vdmUgSUQKaSA8LSBzYW1wbGUoMTpucm93KGRmKSwgMC44Km5yb3coZGYpLCByZXBsYWNlPUZBTFNFKQp0cmFpbiA8LSBkZltpLF0KdGVzdCA8LSBkZlstaSxdCmBgYAoKIyMjIGxvZ2lzdGljIHJlZ3Jlc3Npb24KCkJ1aWxkIGEgbG9naXN0aWMgcmVncmVzc2lvbiBtb2RlbC4KCmBgYHtyfQpnbG0xIDwtIGdsbShDbGFzc34uLCBkYXRhPXRyYWluLCBmYW1pbHk9Ymlub21pYWwpCnN1bW1hcnkoZ2xtMSkKYGBgCgojIyMgVGVzdAoKRXZhbHVhdGUgb24gdGhlIHRlc3QgZGF0YS4gVGhlIGxvZ2lzdGljIHJlZ3Jlc3Npb24gbW9kZWwgZ2V0cyA5MiUgYWNjdXJhY3kuCgpgYGB7cn0KcHJvYnMxIDwtIHByZWRpY3QoZ2xtMSwgbmV3ZGF0YT10ZXN0LCB0eXBlPSJyZXNwb25zZSIpCnByZWQxIDwtIGlmZWxzZShwcm9iczE+MC41LCAyLCAxKQp0YWJsZShwcmVkMSwgdGVzdCRDbGFzcykKYWNjMSA8LSBtZWFuKHByZWQxPT1hcy5pbnRlZ2VyKHRlc3QkQ2xhc3MpLCBuYS5ybT1UUlVFKQphY2MxCmBgYAogRXhhbWluZSB0aGUgcmVzdWx0cyB1c2luZyB0aGUgY2FyZXQgcGFja2FnZS4KIApgYGB7cn0KbGlicmFyeShjYXJldCkKY29uZnVzaW9uTWF0cml4KHByZWQxLCBhcy5pbnRlZ2VyKHRlc3QkQ2xhc3MpLCBwb3NpdGl2ZT0iMiIpCmBgYAogCgoKIyMjIEJ1aWxkIGEgTmFpdmUgQmF5ZXMgY2xhc3NpZmllcgoKVXNlIHRoZSBzYW1lIHRlc3QgYW5kIHRyYWluIGRhdGEgZm9yIGNvbXBhcmlzb24uCgpgYGB7cn0KbGlicmFyeShlMTA3MSkKbmIxIDwtIG5haXZlQmF5ZXModHJhaW5bLC0xMF0sIHRyYWluWywxMF0pCnN1bW1hcnkobmIxKQpgYGAKCiMjIyBFdmFsdWF0ZSBvbiB0aGUgdGVzdCBkYXRhCgpUaGUgTmFpdmUgQmF5ZXMgbW9kZWwgZ2V0cyA5NlwlIGFjY3VyYWN5LiAKCmBgYHtyfQpwcmVkMiA8LSBwcmVkaWN0KG5iMSwgbmV3ZGF0YT10ZXN0WywtMTBdLCB0eXBlPSJjbGFzcyIpCnRhYmxlKHByZWQyLCB0ZXN0JENsYXNzKQphY2MyIDwtIG1lYW4ocHJlZDI9PXRlc3QkQ2xhc3MpCmFjYzIKYGBgCgpFdmFsdWF0ZSB0aGUgcmVzdWx0cyB3aXRoIHRoZSBjYXJldCBwYWNrYWdlLgoKYGBge3J9CmNvbmZ1c2lvbk1hdHJpeChwcmVkMiwgdGVzdCRDbGFzcywgcG9zaXRpdmU9Im1hbGlnbmFudCIpCmBgYAoK</div>
 
 
 

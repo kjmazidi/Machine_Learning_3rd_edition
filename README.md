@@ -1,7 +1,7 @@
 # Machine Learning: An Introductory Handbook Using R
 ## author: Dr. Karen Mazidi
 
-Materials to accompany the book.  The first draft is available on my blog: [karenmazidi.blogspot.com](http://karenmazidi.blogspot.com/)
+Materials to accompany the book.  A sample chapter and link to the book is available on my blog: [karenmazidi.blogspot.com](http://karenmazidi.blogspot.com/)
 
 Table of Contents
 

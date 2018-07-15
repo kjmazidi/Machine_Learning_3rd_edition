@@ -1,7 +1,8 @@
 ---
-title: 'Using R Control Structures'
+title: "Using R Control Structures"
 author: "Karen Mazidi"
 output:
+  html_document: default
   pdf_document: default
 ---
 
@@ -42,12 +43,16 @@ fill_NA <- function(mean_med, v){
 }
 
 # make a new data set with NA's filled
-df <- PimaIndiansDiabetes2
+df <- PimaIndiansDiabetes2[]
 df$triceps <- fill_NA(1, df$triceps)
 df$insulin <- fill_NA(1, df$insulin)
 df <- df[complete.cases(df),]
 
 ```
+
+
+
+
 
 ### Plots and for loops
 
