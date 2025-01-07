@@ -4,5 +4,5 @@ R==4.2.1
 RStudio==2024.12.0+467
 
 # Packages required
-Mlbench
-MASS
+mlbench==2.1-6
+MASS==4.2.1
