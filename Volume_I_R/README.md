@@ -1,6 +1,7 @@
 # The Machine Learning Handbooks
-## author: Dr. KJG Mazidi
-### Companion Code to the series
+## Companion Code to the series
+### Author: Dr. KJG Mazidi
+
 
 This is the 3rd iteration of my machine learning book, significantly expanded into 4 volumes. 
 
