@@ -2,8 +2,22 @@
 title: "Data Exploration with the Airquality Data"
 author: "Karen Mazidi"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
+
+## Companion Code to **The Machine Learning Handbooks**, Volume I, Chapter 2
+
+This notebook demonstrates some rudimentary data exploration techniques using the base R language:
+
+* Loading a built-in data set
+* Looking at the data
+* Dealing with NAs
+* Plots
+* Correlations
+* Adding columns
+* Plotting factors
 
 
 ### Load the data
@@ -19,15 +33,17 @@ The airquality data set is built-into R so we can just load it with the data() f
 
 The data was collected from May to September, 1973, in New York. You can learn more about the data by typing **?airquality** at the console.
 
+The head() function will display the first 2 rows, since n=2. By default it displays 6 rows. There is also a tail() function. 
+
 ```{r}
 data(airquality)
 head(airquality, n=2)
 ```
 ### NAs
 
-Missing data is encoded with NAs. We can count them with the sum() and is.na() functions, nested. The is.na() function returns a TRUE FALSE vector. Then the sum functions adds the TRUE values because TRUE=1 and FALSE=0.
+Missing data is encoded with *NA*. We can count them with the sum() and is.na() functions, nested. The is.na() function returns a TRUE FALSE vector. Then the sum functions adds the TRUE values because TRUE=1 and FALSE=0.
 
-Then we try to take the mean of the Ozone column. The syntax data$col lets us access the column. The mean returned NA because it had NAs in that column. We try it again, and this time add a parameter telling it to ignore NAs.
+Next we try to take the mean of the Ozone column. The syntax data$col lets us access the column specified. The mean returned NA because it had NAs in that column. We try it again, and this time add a parameter telling it to ignore NAs.
 
 Try each command one at a time by using ctrl-enter on each line.
 
@@ -74,7 +90,7 @@ plot(airquality$Temp, airquality$Ozone)
 
 ### Correlation
 
-We can check for correlation by creating a table with the cor() function or visually look for correlations by plotting pairs(). The **use="complete"** option tells it to ignore NAs.
+We can check for correlatios between columns by creating a table with the cor() function or visually look for correlations by plotting pairs(). The **use="complete"** option tells it to ignore NAs.
 
 ```{r}
 cor(airquality[1:4], use="complete")

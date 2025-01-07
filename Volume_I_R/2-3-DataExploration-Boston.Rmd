@@ -2,9 +2,14 @@
 title: "Data Exploration with the Boston Housing Data"
 author: "Karen Mazidi"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
 
+## Companion Code to **The Machine Learning Handbooks**, Volume I, Chapter 2
+
+This notebook uses the Boston data set from the MASS package, then performs data analysis. 
 
 ### Load the package, installing if necessary
 

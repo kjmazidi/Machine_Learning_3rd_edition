@@ -6,12 +6,24 @@ output:
   pdf_document: default
 ---
 
+## Companion Code to **The Machine Learning Handbooks**, Volume I, Chapter 2
+
+This notebook demonstrates a function to fill NAs, and some additional graphs with parameters. 
+
 # Exploring R Control Structures with the PimaIndiansDiabetes2 data
 
 First we load the mlbench package and then the diabetes data set. The data has 768 observations of 9 variables, which we can see with the structure str() function.  The data was collected from Pima Indian women in the late 1990s. 
 
+The *library()* function is sufficient if the mlbench package is already installed. If not, you will get an error. A better way is to use the if statement in which *require()* will return True or False, and install the package if it is not already installed. 
+
 ```{r}
+# check if package is installed
+if (!require("mlbench")){
+  install.packages("mlbench")
+}
+
 library(mlbench)
+
 data(PimaIndiansDiabetes2)
 str(PimaIndiansDiabetes2)
 ```
@@ -49,8 +61,6 @@ df$insulin <- fill_NA(1, df$insulin)
 df <- df[complete.cases(df),]
 
 ```
-
-
 
 
 
