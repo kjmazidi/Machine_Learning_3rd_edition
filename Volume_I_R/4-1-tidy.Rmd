@@ -7,24 +7,34 @@ output:
   pdf_document: default
 ---
 
-Demonstrating tidyverse packages and functions.
+## Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 4
 
-Install the tidyverse like this:
-```
-install.packages("tidyverse")
+This code demonstrates the tidyverse packages and functions.
+
+Packages needed in this notebook:
+
+```{r}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+
+if (!require(mlbench)){
+  insyes
+  tall.packages("mlbench")
+}
+library("mlbench")
 ```
 
-An associated book is [R for Data Science](https://r4ds.had.co.nz/)
+
 
 ### Create a tibble
 
 ```{r}
 # use a mlbench data frame
-library(mlbench)
 data("PimaIndiansDiabetes2")
 
-library(tidyverse)
-tb <- tbl_df(PimaIndiansDiabetes2)
+tb <- as_tibble(PimaIndiansDiabetes2)
 tb
 
 # remove the data frame to free up memory
@@ -118,6 +128,20 @@ Another example:
 tb %>%
   summarize(num_diabetic = sum(diabetes=="pos"), num_healthy = sum(diabetes=="neg"))
 ```
+### count 
+
+A simpler way to get the same information as above:
+
+```{r}
+tb %>% count(diabetes, sort = TRUE)
+```
+
+
+
+```{r}
+
+```
+
 
 ### group_by
 

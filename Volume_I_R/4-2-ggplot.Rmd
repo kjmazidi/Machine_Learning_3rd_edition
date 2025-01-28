@@ -2,13 +2,39 @@
 title: "Introduction to ggplot2"
 author: "Karen Mazidi"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document:
     df_print: paged
+  html_notebook: default
+  pdf_document: default
 editor_options:
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
+
+## Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 4
+
+This code demonstrates the ggplot package.
+
+Packages needed in this notebook:
+
+```{r}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+
+if (!require(mlbench)){
+  insyes
+  tall.packages("mlbench")
+}
+library("mlbench")
+
+if (!require(gridExtra)){
+  insyes
+  tall.packages("gridExtra")
+}
+library("gridExtra")
+```
+
 
 There are 7 grammatical elements in ggplot2, the first 3 of these are essential to getting something plotted:
 
@@ -25,12 +51,11 @@ There are 7 grammatical elements in ggplot2, the first 3 of these are essential 
 
 Loading the diabetes data set from package mlbench.
 
-```{r, message=FALSE}
-library(tidyverse)
-library(mlbench)
+```{r}
+
 data("PimaIndiansDiabetes2")
 
-tb <- tbl_df(PimaIndiansDiabetes2)
+tb <- as_tibble(PimaIndiansDiabetes2)
 ```
 
 
@@ -40,11 +65,12 @@ Hadley Wickham developed ggplot2 in 2005, inspired by a grammar of graphics deve
 
 We have a short example below showing important components of building a ggplot. First we specify the data, then the aesthetics which are how the data is represented, followed by the geometry and finally labels.
 
-```{r, message=FALSE}
+```{r}
 ggplot(tb, aes(x=mass, y=glucose)) +
   geom_point() +
   labs(title="Glucose and BMI", x="BMI", y="Glucose")
 ```
+
 Next we add some color and a smoothing line which helps us see a trend in the data. By default the smoothing line to highlight the trend in the data
 
 ```{r}
@@ -91,6 +117,7 @@ ggplot(tb,
 
 ```{r}
 ggplot(tb, aes(x=mass)) +
+  theme_bw() +
   geom_histogram(fill="cornsilk4")
 ```
 
