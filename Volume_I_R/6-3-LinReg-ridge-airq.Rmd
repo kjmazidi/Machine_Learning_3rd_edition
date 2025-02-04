@@ -7,7 +7,20 @@ output:
     df_print: paged
 ---
 
+## Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 6
+
 Compare linear regression and ridge regression on the airquality data set.
+
+Packages needed in this notebook:
+
+```{r}
+if (!require(glmnet)){
+  install.packages("glmnet")
+}
+library("glmnet")
+```
+
+
 
 ### Data cleaning
 

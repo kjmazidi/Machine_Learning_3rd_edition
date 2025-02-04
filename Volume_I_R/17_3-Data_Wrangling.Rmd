@@ -1,0 +1,291 @@
+---
+title: "Data_Organization"
+author: "Dr. KJG Mazidi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 17
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning
+###### Copyright KJG Mazidi
+### Introduction
+
+This notebook holds the code used in creating Chapter 17. 
+
+Packages needed in this notebook:
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+```
+
+## Times and Dates
+
+We will look at manipulating times and dates in Base R and the tidyverse. 
+
+### Base R
+
+First let's look at dates and times in base R. First days. Note that you can do arithmetic on dates.
+
+```{r}
+hire_date <- as.Date("2016-09-01")
+days_employed <- Sys.Date() - hire_date
+print(days_employed)
+```
+Now let's look at time. You can do arithmetic on time as well. 
+
+```{r}
+birth_date <- as.Date("1989-04-18")
+difftime(Sys.Date(), birth_date, units="secs")
+```
+### Lubridate
+
+The lubridate package was created to simplify date and time processing.
+
+```{r}
+library(lubridate)
+today()
+now()
+```
+
+The airquality data has month and year columns. The documentation states that the year is 1973. We will put these together to create a date field. 
+
+```{r}
+df <- airquality[]
+df$date <- ymd(paste("1973",airquality$Month,airquality$Day))
+print(range(df$date))
+df$date[nrow(df)] - df$date[1]  # time difference
+```
+
+## Outliers
+
+
+Starting with the women data set which measures height in inches and weight in pounds for 15 women between the ages of 30 and 39, collected in 1975.
+
+```{r}
+data(women)
+plot(women$height, women$weight)
+```
+
+The data follows a linear path, there are no outliers. Adding some fake data to simulate outliers. The two new rows can be seen at the end of the data frame.
+
+
+```{r}
+temp_df <- data.frame(height=c(40, 65), weight=c(120, 600))
+df <- rbind(women, temp_df)
+tail(df)
+```
+
+
+Plot for outliers.
+
+```{r}
+plot(df$height, df$weight)
+```
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(df$height, main="height")
+boxplot(df$weight, main="weight")
+```
+
+Find the suspected outliers.
+
+```{r}
+print("Suspected outliers:")
+i <- which.min(df$height)
+print(df[i,])
+i <- which.max(df$weight)
+print(df[i, ])
+```
+
+Sorting also helps find outliers.
+
+> df$index <- as.numeric(row.names(df))
+> df <- df[order(df$index), ]
+
+```{r}
+head(df[order(df$height),], n=2)
+head(df[order(df$weight, decreasing=TRUE),], n=2)
+```
+
+## Text Data with package tm
+
+
+Amazon review data from Kaggle: https://www.kaggle.com/bittlingmayer/amazonreviews
+
+### Load data and package tm
+
+```{r message=FALSE, warning=FALSE}
+library(tm)
+reviews <- read.csv("data/reviews.csv", header=TRUE, stringsAsFactors=F)
+```
+
+### counts for ratings
+
+Rating = 1 means 1 or 2 stars; Rate=2 mean 4 or 5 stars; 3 stars were ignored
+
+About 46% were low and 54% high. 
+
+```{r}
+low_ratings <- nrow(reviews[reviews$Rating == 1,])
+high_ratings <- nrow(reviews[reviews$Rating == 2,])
+```
+
+
+### Make a simple corpus
+
+```{r}
+am_corpus <- Corpus(VectorSource(reviews$Review))
+inspect(am_corpus[1])
+```
+
+### Preprocess
+
+```{r}
+am_clean <- tm_map(am_corpus, content_transformer(tolower))
+am_clean <- tm_map(am_clean, removeNumbers)
+am_clean <- tm_map(am_clean, removePunctuation)
+am_clean <- tm_map(am_clean, removeWords, stopwords())
+am_clean <- tm_map(am_clean, stripWhitespace)
+```
+
+### Make Document Term Matrix
+
+```{r}
+am_dtm <- DocumentTermMatrix(am_clean)
+am_dtm
+```
+
+### Divide into test and train
+
+```{r}
+set.seed(1234)
+i <- sample(nrow(reviews), 0.75*nrow(reviews), replace=FALSE)
+# labels
+train_labels <- reviews[i, 1]
+test_labels <- reviews[-i, 1]
+# data
+train <- am_clean[i]
+test <- am_clean[-i]
+
+
+```
+
+### Ignore rare words
+
+```{r}
+freq_words <- findFreqTerms(am_dtm, 5)
+train <- DocumentTermMatrix(train, control=list(dictionary=freq_words))
+test <- DocumentTermMatrix(test, control=list(dictionary=freq_words))
+inspect(train[50:55, 200:209])
+```
+
+### Create binary matrix
+
+```{r}
+convert_count <- function(x) {
+  y <- ifelse(x>0, 1, 0)
+  y <- factor(y)
+  y
+}
+
+train <- apply(train, 2, convert_count)
+test <- apply(test, 2, convert_count)
+```
+
+### Naive Bayes
+
+```{r}
+library(e1071)
+nb1 <- naiveBayes(train, factor(train_labels))
+```
+
+### Evaluate on test data
+
+
+We a fairly decent accuracy. Further improvements might be made by removing proper nouns and stemming, but we leave that for future work.
+
+```{r}
+pred <- predict(nb1, newdata=test)
+table(pred, test_labels)
+mean(pred == test_labels)
+
+```
+
+
+## Text data wtih RTextTools
+
+
+The RTextTools package integrates text processing and machine learning. Read more about it in [this paper](https://journal.r-project.org/archive/2013-1/collingwood-jurka-boydstun-etal.pdf).
+
+We are going to look at using RTextTools for processing the amazon reviews data.
+
+### Load the data
+
+```{r}
+library(RTextTools)
+reviews <- read.csv("data/reviews.csv", header=TRUE, stringsAsFactors=F)
+```
+
+### Create a document term matrix
+
+This uses the tm package under the hood.
+
+```{r}
+dtm <- create_matrix(reviews$Review, language="english", removeNumbers=TRUE,
+                     removeStopwords=TRUE, stemWords=TRUE, removeSparseTerms=.998)
+```
+
+### Create a container
+
+The container will hold train and test observations as well as labels.
+
+```{r}
+container <- create_container(dtm, reviews$Rating, trainSize=1:3000,
+                              testSize=3001:4139, virgin=FALSE)
+```
+
+### Train model
+
+There are several algorithms to choose from, we just selected 3 of them.
+
+```{r}
+svm <- train_model(container, "SVM")
+glmnet <- train_model(container, "GLMNET")
+maxent <- train_model(container, "MAXENT")
+```
+
+### Classify
+
+Now apply the models to the test data.
+
+```{r}
+svm_classify <- classify_model(container, svm)
+glmnet_classify <- classify_model(container, glmnet)
+maxent_classify <- classify_model(container, maxent)
+```
+
+### Analytics
+
+Interpreting the results. 
+
+```{r}
+analytics <- create_analytics(container, cbind(
+      svm_classify, glmnet_classify, maxent_classify))
+summary(analytics)
+```
+### Create ensemble aggreement
+
+Calculate coverage, the percentage of cases on which the n cases agree, for n >= 1, 2, 3 models. 
+
+```{r}
+create_ensembleSummary(analytics@document_summary)
+```

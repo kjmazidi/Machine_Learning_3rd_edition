@@ -1,0 +1,28 @@
+---
+title: "2-1-Data_Exploration_Airquality"
+format: html
+editor: visual
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 2
+
+#### Book pdf is available on the GitHub repo: <https://github.com/kjmazidi/Machine_Learning>
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook demonstrates
+
+Packages needed in this notebook:
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+```
+
+```{r}
+
+```

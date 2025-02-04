@@ -1,0 +1,205 @@
+---
+title: "Data_Organization"
+author: "Dr. KJG Mazidi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 17
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning
+###### Copyright KJG Mazidi
+### Introduction
+
+This notebook demonstrates how to use tidyverse methods to manipulate the shape of a data frame:
+
+* separate - divide one column into more than one
+* unite - combine multiple columns into one
+* gather - gather columns into rows
+* spread - spread rows into columns
+* arrange - sort rows in the data frame
+
+There are two data wrangling cheat sheets in the GitHub repo.  Here we give working examples. 
+
+Packages needed in this notebook:
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+```
+
+
+### Preliminary data exploration
+
+We will use the built-in data set *mtcars* to demonstrate a few of these methods, so let's load it into memory, convert it to a tibble and take a peek at the data. 
+
+
+
+```{r}
+tb <- as_tibble(mtcars)
+glimpse(tb)
+```
+
+If we look at the original data, we see that rows had names. 
+
+```{r}
+head(mtcars)
+```
+It appears that the tidyverse does not like row names, in fact some have commented that row names are evil. Row names are unique identifiers of an observation, which makes sense in this tiny data set. In the larger kinds of data we work with in machine learning, row names do not make sense and therefore the tidyverse dispenses with them. Many older data sets that have row names use integers, which would no longer make sense if we want to sort with arrange() for example. 
+
+In this data set, the row names are not just numbers, they identify the car. We are going to convert mtcars to *tb* again, this time converting the row names to a column called *car*.
+
+
+```{r}
+tb <- rownames_to_column(mtcars, var = "car") %>% as_tibble()
+```
+
+
+### Examine the car column
+
+If we look at the car column we see that most of the cars are in form: make - space - model, except:
+
+* Hornet was made by AMC
+* Valiant was made by Chrysler
+* Duster was made by Chrysler's Plymouth
+* Camaros were made by Chevrolet which I'm going to call Chevy
+
+
+Car purists are yelling at me right now for not distinguishing brands of manufacturers, for example Plymoth is a brand of Chrysler, but I can't hear them, so I'm good. This is an exercise not a search for truth. Plus I don't even know the difference between Dodge and Chrysler. 
+
+By the way, when I met my husband he was driving a beat-up 70s Datsun. I married him anyway. 
+
+```{r}
+tb$car # examine the car names
+```
+
+So we need to do some editing first before we split the car column into make and model. We could do that with dplyr methods -- see **Notebook 17_2 Data Standardization**. We could edit the original data frame (but not the tb) with editData() that can be installed from CRAN, or we could write mtcars to a csv file, edit it by hand, and read that back in. Let's do that. 
+
+
+```{r}
+# commenting out the write so I don't have to edit again on subsequent notebook runs
+#write.csv(mtcars, "mtcars.csv")
+```
+
+The write.csv function writes rows names as a column whereas write_csv does not. I want the row names so I choose the dot version. 
+
+Now I'm going to read it in and convert it to a tibble one more time. 
+
+```{r}
+tb <- read.csv("mtcars.csv") %>% as_tibble()
+glimpse(tb)
+```
+
+Looks good. Notice that there was not a Column Name for the former column of row names, so R chose "X" for me. I'm tempted to change "Merc" to "Mercedes" but I'll let it go. 
+
+### Separate one column into two
+
+In the code below, the separate() method takes column X and separates it into two colums, make and model, getting rid of the X column. The default delimeter is a space, and the extra= parameter told it to just squish everything else in. 
+
+```{r}
+tb <- 
+   tb %>% separate(X, c("make", "model"), extra = "merge")
+
+tb
+```
+The documentation for separate() says that it will be superceded in favour of separate_wider_position() and separate_wider_delim() because the two functions make the two uses more obvious, the API is more polished, and the handling of problems is better. Superseded functions will not go away, but will only receive critical bug fixes. I'm not really a fan of these long method names, but ok. 
+
+### Unite multiple columns into one
+
+Just to show we can, let's merge make and model back into car. 
+
+```{r}
+tb_cars <- tb %>%
+  unite("car", make:model)
+tb_cars
+```
+
+That seemed straightforward, the new *car* column replaced columns *make* through *model*. 
+
+### select columns
+
+Let's say we want to work with just the first few columns. Then we want to plot mpg by number of cylinders which we make a factor on the fly. For such a small data set, it is not worth subsetting to make the plot, but if you had a huge data set with hundereds of columns, smaller will be faster.
+
+```{r}
+tb_temp <- tb_cars %>% select(car, mpg, cyl)
+plot(factor(tb_temp$cyl), tb_temp$mpg)
+```
+
+
+### Gather and spread
+
+For gather and spread, I'm making up a random tibble. The form of this data is not ready for analysis because it would be hard to pick out results by year for example. The data is 
+
+
+```{r}
+performance <- tibble(
+  #Team = sample(1:4,10, replace=T),
+  Year = 2000:2009,
+  Q1 = sample(10:200, 10, replace=T),
+  Q2 = sample(10:300, 10, replace=T),
+  Q3 = sample(10:400, 10, replace=T),
+  Q4 = sample(10:500, 10, replace=T)
+)
+
+performance
+```
+
+The data above is considered *wide* because each value is in a Quarter variable instead of in a Performance variable. We'll just let *Performance* be some metric, it doesn't matter for our purposes. 
+
+The gather() method will create two new columns, Quarter and Performance, and put each value in Q1 through Q4 in its own row.  
+
+```{r}
+tb_long <- performance %>% gather(Quarter, Performance, Q1:Q4)
+glimpse(tb_long)
+```
+Now that Quarter is its own variable we could do more analysis. This plot shows how performance varied by quarter over the last 10 years. It would have been problematic to pull that intelligence out of the original performance data. 
+
+```{r}
+tb_long$Quarter <- as.factor(tb_long$Quarter)
+plot(tb_long$Quarter, tb_long$Performance)
+```
+
+
+Now the data is long, 40x3, but what if we want it wide?
+
+```{r}
+tb_wide <- tb_long %>% spread(Quarter, Performance)
+glimpse(tb_wide)
+```
+Now we could see Q4 results across the years. The numbers are all over the place because of the random way the data was created, but in the real world, there would probably be a discernable pattern. 
+
+
+```{r}
+plot(tb_wide$Year, tb_wide$Q4)
+```
+
+
+### arrange
+
+Let's take the original performance data and play around with arrange(), which orders rows by values in columns.
+
+First, what does performance look like?
+
+```{r}
+performance
+```
+For example, let's order Q1 from low to high over the years. 
+
+```{r}
+arrange(performance, Q1)
+```
+
+
+
+### Final thoughts
+
+For a nicely written, comprehensive dplyr tutorial, see Brad Boehmke's tutorial:
+
+https://rpubs.com/bradleyboehmke/data_wrangling
+
+

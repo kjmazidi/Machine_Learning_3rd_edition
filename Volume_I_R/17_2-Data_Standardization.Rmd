@@ -1,0 +1,368 @@
+---
+title: "Data_Wrangling"
+author: "Dr. KJG Mazidi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 17
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning
+###### Copyright KJG Mazidi
+### Introduction
+
+This notebook covers some basic data wrangling techniques to clean up messy data. 
+
+The code will utilize both standard R and the tidyverse on the Salary Survey messy data set. The data set is already tidy in that it has the correct organization of rows and columns. The data is not tidy in that it needs data standardization. 
+
+Packages needed in this notebook:
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+```
+
+## The data
+
+The see Ask a Manager website: <https://www.askamanager.org/2021/04/how-much-money-do-you-make-4.html>
+
+
+The data is updated such that the data you download one day may differ from another day. The GitHub repo has the version used in this notebook. 
+
+Before using the read function, attach your copy of the spreadsheet using menu commands File, Import Dataset. This gives you many options, this notebook assumes that no options were changed. Notice that it will pop up a window where you can view the data. 
+
+```{r}
+df <- read.csv("2023_Salary_Survey.csv")
+```
+
+```{r}
+# data  examination with base R
+
+str(df)
+```
+
+```{r}
+# data  examination with the tidyverse
+
+glimpse(df)
+```
+
+Either way we look at it, we see that all the data is character because we did not set the stringsAsFactors parameter in the read function to TRUE. The glimpse() method seems easier to read because the lines don't wrap. 
+
+## Subsetting
+
+Let's assume that we want to select only rows where the country is Mexico. Both the standard R approach and the tidyverse will use variations of the base R grep() function which you may be familiar with from unix. The grep() function returns a vector of row indices, the grepl() "l" for logical, returns a vector of TRUE FALSE values. 
+
+The first argument to grep is a pattern, the second is the column to look in. Note that grep is case sensitive so that if you are searching for "Mexico" it will not find "mexico". You can add a 3rd parameter to grep, ignore.case = TRUE. 
+
+By the way, we will be putting the results repeatedly into variable df_temp in order to not clutter up memory. 
+
+```{r}
+df_temp <- df[grep("Mexico", df$Country, ignore.case = TRUE), ]
+df_temp$Country
+```
+The base R version above just used square bracket syntax for selection. We could have used the subset() function, but the syntax above was simpler. 
+
+Now using dplyr:
+
+```{r}
+df_temp <- df %>% 
+  filter(grepl("Mexico", Country, ignore.case = TRUE))
+df_temp$Country
+```
+In the dplyr code we need grepl instead of grep for the filter function. We got the same output as before. 
+
+#### The old v. the new
+
+As we go through these examples it may start to get confusing what is base R and what is part of the tidyverse. I'll try to make that clear as we go but you can check at the console:
+
+```
+?filter()
+```
+
+and you will see in the Help pane (bottom right) that there is a filter function in dplyr. There may be other filter() functions in other packages. The creators of the tidyverse were careful not to stop over the base R function names. Thanks!
+
+### Standardizing text
+
+Notice that Mexico was entered in various ways, more variation that just capitalization alone. We want to standardize "Mexico" in a couple of different ways. 
+
+With Base R in the code below we used an ifelse() structure to place "Mexico" in the Country column if "Mexico" was found in Country, otherwise leave it alone. 
+
+Now you might thing that something like this might work:
+
+```
+# code block is NOT correct
+df_temp <- df # copy df
+#df_temp$Country <- ifelse(grepl("Mexico", df$Country, ignore.case = TRUE), "Mexico", df$Country)
+if(grepl("Mexico", df$Country, ignore.case = TRUE)){
+  df_temp$Country <- "Mexico"
+  }
+```
+
+But we get an error message because the if statement in R is not vectorized. In order to use an if statement here we would need to put it in a for loop. 
+
+```{r}
+# try again
+df_temp <- df # copy df
+
+for (i in 1:length(df)){
+    if (grepl("Mexico", df_temp$Country[i], ignore.case = TRUE)){
+        df_temp$Country[i] <- "Mexico"
+  }
+}
+```
+
+The ifelse() is a vectorized function, so we can write this:
+
+```{r}
+# another way
+df_temp <- df # copy df
+
+df_temp$Country <- ifelse(grepl("Mexico", df_temp$Country, ignore.case = TRUE), "Mexico", df_temp$Country)
+
+```
+
+Finally, let's get to how we might do this in dplyr. 
+
+```{r}
+df_temp <- df # copy df
+
+df_temp <- df_temp %>% 
+  mutate(Country = ifelse(grepl("Mexico", df_temp$Country, ignore.case = TRUE), "Mexico", Country)) 
+
+```
+
+This was simpler, we took advantage of the vectorized ifelse() function, and the mutate function which is also vectorized. Another advantage here is that because we piped the data frame to mutate, it knows that Country belongs to df_temp. 
+
+Running * unique(df$Country)* at the console shows 119 different unique country cells.  To standardize all the countries we would have to run code similar to the following for all the countries. Instead, let's just focus on North America: Mexico, United States, Canada. 
+
+```
+sort(unique(df$Country))
+```
+
+Using the code above at the console we see that Canada mainly has one spelling, but also has one that says "Canada, Fully remote (international)". Alas, sometimes users give you too much information. That will be easy to turn into "Canada". 
+
+A more troubling entry is this:
+
+ "International- mainly US, Canada, Australia, India, Italy"
+ 
+A principled approach would be to use the first entry which in this case was US. We will be US-centric for convenience and change all entries that have a variation of US to US, do the same with Canada and Mexico. The variations of US are many: United States, US, U.S. This will cause "Mexico (but work for USG there)" to become United States instead of Mexico. This is probably an error, depending on what the purpose of the data is. The main point to emphasize is to be clear in your documentation what you did and why. 
+
+
+### Standardize United States, Mexico, Canada
+
+We are using the same dplr code as above, for the 3 countries and the variations of United States. In examining the data at the console, it was discovered that a match for US would match Austria and Australia, not what we want, so we cannot grep like this: (grepl("United States | US | U.S."), The 
+
+```{r}
+df_temp <- df # copy df
+
+# 
+us_patterns <- c("United States", " US", "U.S.")
+for (pattern in us_patterns){
+    df_temp <- df_temp %>% 
+        mutate(Country = ifelse(grepl(pattern, Country, ignore.case = TRUE), "United States", Country)) 
+}
+
+df_temp <- df_temp %>% 
+  mutate(Country = ifelse(grepl("Canada", df_temp$Country, ignore.case = TRUE), "Canada", Country)) 
+
+df_temp <- df_temp %>% 
+  mutate(Country = ifelse(grepl("Mexico", df_temp$Country, ignore.case = TRUE), "Mexico", Country)) 
+
+```
+
+OK, but do we have to painstakingly go through all 16K rows to check that this was done correctly?
+
+No, let's do some counting. Counting the original df with either US or US or United States gives 4 + 6 + 13995. So we if add those together we should get 14005 in the new data frame, but we only get 14004. Aha! Closer inspection reveals this gem: 
+
+"United States, I physically work in the U.S. but my programs are focused on foreign youth abroad."
+
+which has both "United States" and "U.S." 
+
+```{r}
+sum(grepl("U.S.", df$Country, ignore.case = TRUE)) 
+sum(grepl(" us", df$Country, ignore.case = TRUE)) 
+sum(grepl("United States", df$Country, ignore.case = TRUE)) 
+sum(df_temp$Country == "United States")
+```
+Did we catch every edge case? Probably not. However, for our purposes in not making this notebook too long, we need to move on. 
+
+### Subsetting to North America
+
+Now that we have standardized the text for the countries of North America, we can subset the temp data frame to create a more focused data frame. 
+
+```{r}
+north_america <- c("United States", "Mexico", "Canada")
+
+
+df_north_america <- 
+  filter(df_temp, Country == "United States" | Country == "Mexico" | Country == "Canada")
+
+# make Country a factor
+df_north_america$Country <- as.factor(df_north_america$Country)        
+levels(df_north_america$Country)
+
+```
+
+### Subset again
+
+We have subset the data to just 3 countries, but if we look again we see many different types of currency. Somebody is getting paid in "Other", interesting. 
+
+```{r}
+ unique(df_north_america$Currency)
+```
+
+We want to explore salaries so let's get rid of all those that aren't in US Dollars. 
+
+```{r}
+df_usd <- 
+  filter(df_north_america, Currency == "USD")
+
+hist(df_usd$Annual.salary..gross.)
+  
+```
+
+Something does not seem right, let's explore further. Base R's summary() function shows the max truly is 3 million. 
+
+But first, let's rename that column from "Annual.salary..gross." which is gross, to just "Salary" to make things easier for our purposes. 
+
+There are several ways to do this in standard R as well as dplyr but standard R is as simple as it gets:
+
+```{r}
+colnames(df_usd)
+colnames(df_usd)[7] <- "Salary"
+names(df_usd)
+```
+
+Now let's explore Salary. 
+
+
+```{r}
+summary(df_usd$Salary)
+```
+
+Let's boxplot first to see if there are many outliers. 
+
+```{r}
+boxplot(df_usd$Salary)
+```
+Oh yeah, quite a few large income individuals. I'll bet they are getting paid in *Other*, just kidding. 
+
+The third quartile is 123690. Let's see how many observations are over that value. 
+
+```{r}
+sum(df_usd$Salary > 123690)
+glimpse(sort(df_usd$Salary))
+glimpse(sort(df_usd$Salary, decreasing = TRUE))
+```
+
+Let's subset the data to get rid of the top 10% and botton 10%. 
+
+```{r}
+cut_offs <- quantile(df_usd$Salary, c(.1, .9))
+cut_offs
+```
+
+The 10% percentile is 49,000 and the 90th percentile is 166,000. This seems like a reasonable range for the data. Again, we would have to document our choices and give our reasons for these decisions. 
+
+```{r}
+df_usd <- 
+  filter(df_usd, Salary > cut_offs[1] & Salary < cut_offs[2])
+
+range(df_usd$Salary)
+```
+
+
+### Salary by remote v on-site
+
+We want to look at salary and how it compares to different categores. There are 4 as. you can see below. Rather than rename and convert, below we just created a new factor column from the old column and then deleted the old column. 
+
+```{r}
+df_usd$Remote <- as.factor(df_usd$Remote.or.on.site.)
+contrasts(df_usd$Remote)
+
+df_usd$Remote.or.on.site. <- NULL # delete the column
+```
+For the next graph we want to get rid of rows where Remote is blank. Unfortunately we would find in the graph below that the level would remain in the graph even though all the rows with that level have been removed. The droplevels() function can help here. 
+
+
+```{r}
+df_usd <- 
+  filter(df_usd, Remote != "")
+
+# now update the factor levels
+df_usd$Remote <- droplevels(df_usd$Remote)
+
+plot(df_usd$Remote, df_usd$Salary)
+```
+
+
+### What happened to tibbles?
+
+Notice that I never converted the data frame to a tibble. The dplyr methods are backwardly compatible, the tidyverse will do whatever it needs under the hood. The bigger question is which standard R methods work with tibbles? Things work pretty much as expected. In the code block below, we converted the data frame to a tibble and then used str() instead of glimpse(). Nothing bad happened. Unless you call an ugly output "bad". 
+
+Obviously, a lot of thought went into the tidyverse and its compatibility with standard R. 
+
+```{r}
+tb_usd <- as_tibble(df_usd)
+str(tb_usd)
+```
+
+### More functions
+
+Finally, let's convert the data frame to a tibble in order to play around a little more with dplr. 
+
+
+```{r}
+tb <- as_tibble(df)
+
+top_n(tb, 10, df$How.old.are.you.)
+```
+
+ok, I see a lot of older people such as myself. Let's see how many are 65 or over in Computing or Tech. 
+
+First, make a factor of age to replace the childishly named How.old.are.you:
+
+```{r}
+tb$Age <- as.factor(tb$How.old.are.you.)
+tb$How.old.are.you. <- NULL
+
+tb$Salary <- tb$Annual.salary..gross.
+tb$Annual.salary..gross. <- NULL
+```
+
+We could make Industry a factor, but we can get the info we want without doing that.
+
+```{r}
+tb %>%
+  summarize(Older = sum(Age == "65 or over"), Tech = sum(Industry == "Computing or Tech") )
+```
+```{r}
+tb %>% 
+  group_by(Age) %>%
+  summarize(median_Salary = median(Salary))
+```
+
+Does it bother you that "under 18" sorts last instead of first? Yeah it bugs me too. We could change that to be "0 to under 18" and then it would sort better. I'll leave that to you. 
+
+Here are some ideas:
+
+* Clean up State, use unique() to see a lot of problems
+* Reduce Highest.level.of.education.completed to just 5 or fewer categories - this is probably the messiest column, there are 184 unique entries
+* The two Years.of.experience columns should be fairly straitforward to clean up
+
+Notice that we have deleted rows with empty values here are there. We could have used complete.cases() at the very beginning. We could have made sure that "" encoded as NA when we originally read in the csv file, using the ns.strings parameter. There are many options, and often not one right way to do things, so feel free to develop your own procedures for data standardization. 
+
+### More Cleanup
+
+There is a lot more cleanup to be done on this data set. I'll leave that to you. Have fun with gender and race. I'm not touching those with a ten-foot pole. However, someone would have to in a real scenario. This requires tact, documentation, and a team of individuals to give input on categories. Document how decisions were made. 
+
+This would be an interesting data set to clean up, then create a Shiny app for. See the documentation here: https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/
+
+
+

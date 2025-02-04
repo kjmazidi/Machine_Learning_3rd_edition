@@ -9,6 +9,10 @@ editor_options:
   chunk_output_type: inline
 ---
 
+## Code Accompanying **The Machine Learning Handbooks**, Volume I, Chapter 6
+
+No packages required for this notebook. 
+
 ChickWeight is a built-in R data set with 578 rows and 4 columns of data resulting from an experiment on the effect of different types of feed on chick weight. Each observation (row) in the data set represents the weight in grams of a given chick on a given day, recorded in column Time. 
 
 ### Data exploration
