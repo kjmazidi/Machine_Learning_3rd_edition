@@ -2,9 +2,8 @@
 title: "2-1-Data_Exploration_Airquality"
 format:
   html:
+    embed-resources: true
     toc: true
-    html-math-method: katex
-    css: styles.css
 editor: visual
 ---
 
