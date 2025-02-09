@@ -1,0 +1,144 @@
+---
+title: "06-2-LinReg_ChickWeight"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 6
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook looks at the built-in data set **ChickWeight** as an introductory example of linear regression in R.
+
+No imported packages are required for this notebook.
+
+ChickWeight is a built-in R data set with 578 rows and 4 columns of data resulting from an experiment on the effect of different types of feed on chick weight. Each observation (row) in the data set represents the weight in grams of a given chick on a given day, recorded in column Time. 
+
+### Data exploration
+
+Let's explore the data with R functions and plots.
+
+```{r}
+data(ChickWeight)
+dim(ChickWeight)
+head(ChickWeight)
+```
+
+
+
+```{r}
+par(mfrow=c(1,2))
+plot(ChickWeight$Time, ChickWeight$weight,
+     xlab="Time", ylab="Weight")
+plot(ChickWeight$Diet, ChickWeight$weight,
+     xlab="Diet", ylab="Weight")
+```
+
+### Divide the data into train and test sets
+
+We randomly sample the rows to get a vector i with row indices. This is used to divide into train and test sets. 
+
+```{r}
+set.seed(1234)
+i <- sample(1:nrow(ChickWeight), nrow(ChickWeight)*0.75, replace=FALSE)
+train <- ChickWeight[i,]
+test <- ChickWeight[-i,]
+```
+
+### Simple linear regression
+
+In simple linear regression we have a single predictor variable for our target variable. Here we wish to see the impact of Time on weight.
+
+```{r}
+lm1 <- lm(weight~Time, data=train)
+summary(lm1)
+```
+
+### Plotting the residuals
+
+The 4 residual plots are placed in a 2x2 grid.
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm1)
+```
+### Evaluate on the test set
+
+```{r}
+pred1 <- predict(lm1, newdata=test)
+cor1 <- cor(pred1, test$weight)
+mse1 <- mean((pred1-test$weight)^2) 
+rmse1 <- sqrt(mse1)
+
+print(paste('correlation:', cor1))
+print(paste('mse:', mse1))
+print(paste('rmse:', rmse1))
+```
+
+
+
+### Multiple Linear Regression
+
+If we have more than one predictor in linear regression we call it multiple linear regression. Here we want to see the effect of both Time and Diet on chick weight.
+
+```{r}
+lm2 <- lm(weight~Time+Diet, data=train)
+summary(lm2)
+```
+
+The adjusted R-squared for lm2 is an improvement over lm1.
+
+### The anova() function
+
+The analysis of variance function here is used to compare the two models. We see that lm2 lowered the errors, RSS, and had a low p-value. These are indications that lm2 is a better model than lm1. 
+
+```{r}
+anova(lm1, lm2)
+```
+
+### Evaluate on the test set
+
+```{r}
+pred2 <- predict(lm2, newdata=test)
+cor2 <- cor(pred2, test$weight)
+mse2 <- mean((pred2-test$weight)^2) 
+rmse2 <- sqrt(mse2)
+
+print(paste('correlation:', cor2))
+print(paste('mse:', mse2))
+print(paste('rmse:', rmse2))
+```
+
+### Linear models are not always straight lines
+
+Next we try predicting the log of weight to illustrate that linear models are not always straight lines. This damped down some of the variation in the residuals. The lm3 model had a higher R-squared of 0.8474. We cannot do anova() comparing lm3 because it has a different target, the log(weight) instead of weight.
+
+```{r}
+lm3 <- lm(log(weight)~Time+Diet, data=train)
+summary(lm3)
+par(mfrow=c(2,2))
+plot(lm3)
+```
+
+### Evaluate on the test set
+
+```{r}
+pred3 <- predict(lm3, newdata=test)
+pred3 <- exp(pred3)
+cor3 <- cor(pred3, test$weight)
+mse3 <- mean((pred3-test$weight)^2) 
+rmse3 <- sqrt(mse3)
+
+print(paste('correlation:', cor3))
+print(paste('mse:', mse3))
+print(paste('rmse:', rmse3))
+```
+
+Note that we can't do an anova comparison with model 3 because it has a target of log(weight) and lm1 and lm2 have weight as a target.

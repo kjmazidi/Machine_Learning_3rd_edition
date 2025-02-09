@@ -1,0 +1,93 @@
+---
+title: "2-3-Data_Exploration_Boston"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 2
+
+#### Book pdf is available on the GitHub repo: <https://github.com/kjmazidi/Machine_Learning_3rd_edition>
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook demonstrates data analysis on the Boston data set.
+
+Packages imported in this notebook: MASS and its Boston data set
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(MASS)){
+  install.packages("MASS")
+}
+library("MASS")
+```
+
+### Load Boston
+
+The Boston housing data set is a collection of data from Boston neighborhoods in the late 1970s. There are 506 rows representing different neighborhoods, and 14 variables:
+
+-   crim - per capita crime by town
+-   zn - propostion of residential land zoned for lots over 25K sq ft
+-   indus - proportion of non-retail business acres per town
+-   chas - =1 if tract bounds the Charles river; 0 overwise
+-   nox - nitrous oxide concentration in parts per 10 million
+-   rm - average number of rooms per dwelling
+-   age - proportion of owner-occupied units built prior to 1940
+-   rad - index of accessibility to radial highways
+-   tax - full-value property tax rate per \$10K
+-   ptratio - pupil-teacher ratio by town
+-   black - proportion of blacks by town; seriously?
+-   lstat - lower status of the populatio as a percent
+-   medv - median value of owner-occupied homes in 1000s of dollars
+
+The str() function tells you about the structure of the data set.
+
+```{r}
+data(Boston) # load the data into memory
+str(Boston)  # view the data structure
+```
+
+### Built-in R Functions
+
+Next we display a few statistics about various columns of the data frame. The **cat()** function concatenates strings, converting numeric data to string, and outputs the result.
+
+```{r}
+# display a few stats
+
+cat("Range of median home value:", range(Boston$medv))
+cat("\nMedian tax value:", median(Boston$tax))
+cat("\nAverage low-income status:", mean(Boston$lstat))
+cat("\nAverage age of home:", summary(Boston$age))
+```
+
+### Plot
+
+The plot function is powerful and versatile. Read more by typing ?plot at the console. Here we plot median home value as a function of the percent of lower economic status persons in the neighborhood. The color of the points will indicate whether or not the neighborhood is close to the Charles River. The unclass() functions converts the factors to integers so they can index the color choices blue or red. We also added a main heading. We did not specify x or y axis headings so R just used the variable names.
+
+```{r}
+plot(Boston$medv~Boston$lstat, col=c("blue","red")[unclass(Boston$chas)+1], main="Boston Housing")
+```
+
+### Correlation
+
+We can check for correlation by creating a table with the cor() function or visually look for correlations by plotting pairs().
+
+```{r}
+cor(Boston)
+pairs(Boston)
+```
+
+### Plotting a regression line
+
+Next we plot number of rooms on the x axis and median home value on the y axis. Then we use function abline() to plot a blue regression line on top of the points. The lm() function creates a linear regression model predicting median value as a function of rooms. We will learn more later, for now just realize that the regression line tries to plot through the middle of the trend. The trend is up. Not surprisingly, houses with more rooms tend to be more expensive.
+
+```{r}
+plot(Boston$rm, Boston$medv)
+abline(lm(Boston$medv~Boston$rm), col="blue")
+```
+
+That's all for now. In future notebooks we will revisit the Boston housing data.

@@ -1,0 +1,50 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  chunk_output_type: inline
+---
+# K-means clustering
+## Karen Mazidi
+
+
+
+### Getting set up
+
+We are using the built-in iris data set.
+
+```{r}
+library(datasets)
+head(iris)
+```
+
+Now we try clustering with kmeans().
+
+We are using just Petal.Length and Petal.Width for clustering. The number of clusters is set to 3 and the number of starts is 20.
+
+
+```{r}
+set.seed(1234)
+irisCluster <- kmeans(iris[, 3:4], 3, nstart=20)
+irisCluster
+```
+
+Compare the clusters with the species. This is not usally something we can do in clustering because we normally don't have labels. We are usually clustering blind, not knowing the true grouping in the data. 
+
+```{r}
+table(irisCluster$cluster, iris$Species)
+
+```
+
+Plot the clusters.
+
+```{r}
+
+plot(iris$Petal.Length, iris$Petal.Width, pch=21, bg=c("red","green3","blue")
+[unclass(irisCluster$cluster)], main="Iris Data")
+```
+
+
+
+

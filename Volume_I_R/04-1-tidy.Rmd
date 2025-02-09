@@ -1,0 +1,158 @@
+---
+title: "04-1-tidy"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 4
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook demonstrates the tidyverse packages and functions.
+
+Packages imported in this notebook:
+
+- tidyverse
+- mlbench for the PimaIndiansDiabetes2 data set
+
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(tidyverse)){
+  install.packages("tidyverse")
+}
+library("tidyverse")
+
+if (!require(mlbench)){
+  insyes
+  tall.packages("mlbench")
+}
+library("mlbench")
+```
+
+
+
+### Create a tibble
+
+```{r}
+# use a mlbench data frame
+data("PimaIndiansDiabetes2")
+
+tb <- as_tibble(PimaIndiansDiabetes2)
+tb
+
+# remove the data frame to free up memory
+rm(PimaIndiansDiabetes2)
+```
+
+A glimpse is a view similar to str.
+
+```{r}
+glimpse(tb)
+```
+
+### The dplyr package
+
+Some dply functions work on columns. These are demonstrated below.
+
+#### select()
+
+Select a subset of columns. The select() function returns a tibble but it was not saved and will be discarded after the glimpse is output.
+
+```{r}
+select(tb, diabetes, pregnant) %>%
+  glimpse
+```
+
+or:
+
+```{r}
+tb %>%
+  select(diabetes, pregnant) %>%
+  glimpse
+```
+
+#### mutate()
+
+The mutate() function can create new columns from old ones.
+
+```{r}
+tb <- tb %>%
+       mutate(glucose_high = factor(
+         ifelse(glucose>mean(glucose, na.rm=TRUE), 1, 0)))
+
+tb[1:5, c(2, 10)]
+```
+
+We can also use mutate to delete a column by setting it to NULL.
+
+```{r}
+tb <- tb %>%
+  mutate(glucose_high = NULL)
+
+names(tb)
+```
+
+#### rename()
+
+Rename a column.
+
+```{r}
+tb <- rename(tb, blood_pressure = pressure)
+```
+
+#### filter()
+
+The filter function can select rows.
+
+```{r}
+tb <- filter(tb, !is.na(glucose), !is.na(mass))
+glimpse(tb)
+```
+#### arrange()
+
+The following code arranges the rows by mass in descending order.
+
+```{r}
+arrange(tb, desc(mass))
+```
+
+### summarize
+
+The summarize function computes statistical summaries of the data.
+
+```{r}
+tb %>%
+  summarize(min=min(mass), max=max(mass), sd=sd(mass))
+```
+
+Another example:
+
+```{r}
+tb %>%
+  summarize(num_diabetic = sum(diabetes=="pos"), num_healthy = sum(diabetes=="neg"))
+```
+### count 
+
+A simpler way to get the same information as above:
+
+```{r}
+tb %>% count(diabetes, sort = TRUE)
+```
+
+
+
+### group_by
+
+```{r}
+tb %>%
+  group_by(diabetes) %>%
+  summarize(median_BMI = median(mass, na.rm=TRUE))
+```
+

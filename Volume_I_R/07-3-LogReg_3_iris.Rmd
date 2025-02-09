@@ -1,0 +1,103 @@
+---
+title: "07-3-LogReg_3_iris"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 7
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+No special packages are needed for this notebook. 
+
+### Introduction
+
+In this notebook we look at multi-class classification with the iris data set, built into R. This is a well-known data set that takes measurements from 150 irises, equally divided into 3 species virginica, setosa and versicolor. The notebook demonstrates a manual one-versus-all technique for multi-class classification. 
+
+### Data exploration
+
+Explore the data with functions and graphics. Note that the attach() function is not considered best practices. Use it with caution, in small test notbooks. Once a data set is attached, we can refer to its columns as **name** instead of **data$name**.
+
+```{r}
+attach(iris)
+str(iris)
+pairs(iris[1:4], pch = 21, bg = c("red", "yellow", "blue")[unclass(Species)])
+
+```
+
+Let's see how well Petal.Length and Petal.Width separate the classes. 
+
+```{r}
+plot(Petal.Length, Petal.Width, pch=21, bg=c("red","yellow","blue")
+     [unclass(Species)])
+
+```
+
+### One versus all
+
+In one versus all classification we will build 3 classifiers on 3 data sets:
+
+* virginica versus not 
+* setosa versus not
+* versicolor versus not
+
+```{r}
+# reclassify as virginica or not
+iris_virginica <- iris
+iris_virginica$Species <- as.factor(ifelse (iris_virginica$Species=="virginica",1,0))
+
+# reclassify as setosa or not
+iris_setosa <- iris
+iris_setosa$Species <- as.factor(ifelse (iris_setosa$Species=="setosa",1,0))
+
+# reclassify as versicolor or not
+iris_versicolor <- iris
+iris_versicolor$Species <- as.factor(ifelse (iris_versicolor$Species=="versicolor",1,0))
+```
+
+### Function for logistic regression
+
+We will write a function to handle repeated calls. 
+
+```{r}
+fun <- function(df, i){
+    train <- df[i,]
+    test <- df[-i,]
+    glm1 <- glm(Species~., data=train, family="binomial")
+    probs <- predict(glm1, newdata=test)
+    pred <- ifelse(probs>0.5, 1, 0)
+    acc <- mean(pred==test$Species)
+    print(paste("accuracy = ", acc))
+    table(pred, test$Species) 
+}
+```
+
+
+
+### Virginica
+
+```{r}
+set.seed(1234)
+i <- sample(1:150, 100, replace=FALSE)
+fun(iris_virginica, i)
+```
+### Setosa
+
+```{r}
+fun(iris_setosa, i)
+```
+
+### Versicolor
+
+```{r}
+fun(iris_versicolor, i)
+```
+
+
+
+
