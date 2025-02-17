@@ -1,19 +1,44 @@
 ---
-editor_options:
-  chunk_output_type: inline
+title: "10-3-kNN_reg_cv"
+date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document:
-    df_print: paged
+    toc: true
+    theme: united
 ---
-# kNN - Regression
-## Using 10-fold cross validations
-### Karen Mazidi
 
-Load the data
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 10
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+Libraries imported: 
+
+* ISLR for kNN regression and the Auto data set
+* caret for cross validation
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(ISLR)){
+  install.packages("ISLR")
+}
+library("ISLR")
+
+if (!require(caret)){
+  install.packages("caret")
+}
+library("caret")
+```
+
+
+
+### Load the data
+
+We are subsetting the data to just the columns we want to use as predictors and the target. 
 
 ```{r}
-library(ISLR)
 df <- Auto[]
 df$origin <- as.integer(df$origin)
 # subset to columns mpg, weight, year, origin
@@ -26,7 +51,7 @@ We could do this manually but there is a function in caret that does this. Since
 
 
 ```{r}
-library(caret)
+# uses the caret library
 set.seed(1234)
 folds <- createFolds(df$mpg, k=10)
 sapply(folds, length)

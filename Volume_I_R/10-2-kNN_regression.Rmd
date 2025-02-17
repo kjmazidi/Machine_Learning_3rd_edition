@@ -1,23 +1,41 @@
 ---
-title: "kNN Regression"
+title: "10-2-kNN_regression"
+date: "`r Sys.Date()`"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document:
-    df_print: paged
+    toc: true
+    theme: united
 ---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 10
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
 
 This notebook performs kNN regression on the Auto data in package ISLR. The [ISLR book](http://faculty.marshall.usc.edu/gareth-james/ISL/) is a really good and free resource for statistical learning in R. Two of the authors, Hastie and Tibshirani, also have a series of videos available [at this link](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)
 
+Library imported: ISLR for kNN regression
+
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(ISLR)){
+  install.packages("ISLR")
+}
+library("ISLR")
+```
+
+
+
 ### Linear Regression baseline
 
-This example uses the Auto data set in package ISLR. First we try linear regression as a baseline and then see if knn can beat the linear model. 
+This example uses the Auto data set in package ISLR. We convert the origin column to a factor. 
 
 
 ```{r}
-library(ISLR)
-attach(Auto)
-Auto$origin <- as.factor(origin)
+Auto$origin <- as.factor(Auto$origin)
 str(Auto)
 ```
 

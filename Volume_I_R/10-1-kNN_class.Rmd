@@ -1,26 +1,44 @@
 ---
+title: "10-1-kNN_class"
+date: "`r Sys.Date()`"
 output:
-  pdf_document: default
-  html_document: default
-editor_options: 
-  chunk_output_type: inline
+  html_document:
+    toc: true
+    theme: united
 ---
-# kNN - Classification
-### Karen Mazidi
 
-This example shows how to do knn clustering for classification. 
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 10
 
-The iris database comes with R. It has 150 instances and 5 columns:
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook looks at the built-in data set **iris** as an introductory example of kNN classification in R.
+
+Library imported: class for kNN classification
+
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(class)){
+  install.packages("class")
+}
+library("class")
+```
+
+
+
+### Load and look at the data 
+
+The iris data set has 150 instances and 5 columns:
 - Sepal.Length
 - Sepal.Width
 - Petal.Length
 - Petal.Width
 - Species: setosa, versicolor or virginica
 
-
-### Load and look at the data 
 ```{r}
-attach(iris)
 str(iris)    # display the structure of the object
 summary(iris)
 ```
@@ -28,15 +46,16 @@ summary(iris)
 ### Plot the data
 
 We let the 3 classes show as 3 different colors with the bg parameter and the "unclass" values 1, 2, 3 representing the 3 types of irises.
+
 ```{r}
-plot(Petal.Length, Petal.Width, pch=21, bg=c("red","green3","blue")
-     [unclass(Species)], main="Iris Data")
+plot(iris$Petal.Length, iris$Petal.Width, pch=21, bg=c("red","green3","blue")
+     [unclass(iris$Species)], main="Iris Data")
 ```
 
 ### Pairs scatter plots
 
 ```{r}
-pairs(iris[1:4], main = "Iris Data", pch = 21, bg = c("red", "green3", "blue")[unclass(Species)])
+pairs(iris[1:4], main = "Iris Data", pch = 21, bg = c("red", "green3", "blue")[unclass(iris$Species)])
 ```
 
 ### Divide into train/test sets
@@ -61,15 +80,14 @@ Classificiation is decided by majority vote with ties broken at random.
 Using an odd k can avoid some ties.
 
 ```{r}
-library(class)
 iris_pred <- knn(train=iris.train, test=iris.test, cl=iris.trainLabels, k=3)
 ```
 
 ### Compute accuracy
 
-We built a classifier with 98% accuracy.
+We built a classifier with very high accuracy. Note that the iris data set is quite easy to classify. 
 
-It's often a good idea to scale the variables for clustring to make the distance calculations better. However in this case, the 3 predictors are roughly in the same scale so it's probably not necessary.
+It's often a good idea to scale the variables for clustring to make the distance calculations better. However in this case, the 3 predictors are in the same scale so it's not necessary.
 
 ```{r}
 results <- iris_pred == iris.testLabels
