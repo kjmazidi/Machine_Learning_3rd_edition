@@ -1,0 +1,217 @@
+---
+title: "19-2-Distributions"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapters 8 and 19
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores some data distributions that are commonly found in machine learning. The code in this notebook corresponds to the data distribution discussion found in Chapter 8, Section 4. 
+
+Package imported in this notebook:
+
+* MCMCpack for the Dirichlet distribution
+
+```{r, warning = FALSE, message = FALSE}
+if (!require("MCMCpack")){
+  install.packages("MCMCpack")
+}
+library(MCMCpack)
+
+```
+
+
+
+## Data distributions
+
+Next we explore some of the most common of data distributions:
+
+* normal
+* binomial
+* multinomial
+
+
+### Normal distribution aka Gaussian distribution
+
+Plotting a histogram of a quantitative variable shows how well the data fits a normal curve, or how skewed or random it may be. 
+
+The Gaussian or normal distribution is used for quantitative variables. Two parameters define its shape: the mean $\mu$ and the variance $\sigma^2$. The probability density function is: \index{probability!Gaussian distribution}
+
+\begin{equation}
+f(x) = \frac{1}{\sqrt{2\pi\sigma}} exp\bigg( -\frac{(x - \mu)^2}{2\sigma^2} \bigg)
+\end{equation}
+
+
+Let's plot a few Gaussians to see how the mean and variance influence the shape. All 3 distributions are generated with the dnorm() function, and all have a mean of 0. Different means would shift the curves right or left. The three curves have different standard deviations. 
+
+```{r}
+curve( dnorm(x,0,1), xlim=c(-4,4), ylim=c(0,1) )
+curve( dnorm(x,0,2), add=T, col='blue' )
+curve( dnorm(x,0,.5), add=T, col='orange' )
+```
+
+The rnorm() function in R generates random numbers, following a normal distribution. The d in the dnorm() function is for density, as in pdf, probability density function. The dnorm() function returns the pdf for the normal distribution specified by the parameters.
+
+The pdf of the Gaussian above in Equation 5.18 is for a single variable x. The Gaussian can be extended to a D-dimensional vector \textbf{x} in which case it is called a multivariate Gaussian and has the pdf shown below where $\mu$ is now a vector of means, $\Sigma$ is a DxD covariance matrix, $\vert \Sigma \vert$ is the determinant.
+
+\begin{equation}
+f(x) = \frac{1}{\sqrt[D/2]{2\pi} \sqrt{\vert \Sigma \vert}} exp\bigg( -\frac{(x - \mu)^T(x - \mu)}{2\Sigma} \bigg)
+\end{equation}
+
+### Binomial distributiion
+
+
+These distributions concern binary variables representing such things as the flip of a coin, wins and losses, and so forth. Our example will be shooting baskets for practice, where x=1 means that we made a basket and x=0 means that we missed. Let's say that I am shooting hoops for the first time and I made 2 baskets out of 10 tries. Given this data, my probability of making a basket is 0.2. The Bernoulli distribution describes binary outcomes like this example. The Bernoulli distribution has a parameter, $\mu$, which specifies the average probability of the positive class. 
+
+\begin{equation}
+Bernoulli(x|\mu) = \mu^x(1-\mu)^{1-x}
+\end{equation}
+
+This gives us the probability that x is 1: $p(x=1) = 0.2^1 * .8^0 = 0.2$. And the probability that x is 0: $p(x=0) = 0.2^0 * .8^1 = 0.8$.  
+
+The Bernoulli distribution is a special case of the binomial distribution in which the number of trials, N = 1. Now suppose we run our Bernoulli trial N=100 times, that is, I shoot 100 baskets. Let X be the random variable which represents the number of baskets made. The binomial distribution of X where I made k baskets in N trials has the following probability mass function (pmf):
+
+\begin{equation}
+Binomial(k|N,\mu) = \bigg(\frac{N}{k}\bigg)\ \mu^k(1-\mu)^{N-k}
+\end{equation}
+
+Let's let k=20 for our 100 trials. Will the outcome of the binomial be 0.2?
+
+\begin{equation}
+Binomial(20|100,0.2) = \bigg(\frac{100}{20}\bigg)\ 0.2^{20}(1-0.2)^{80} = 0.09930021
+\end{equation}
+
+No, it is not because there are many ways we can get 20 baskets out of 100 trials, 100 choose 20, to be exact. You can get out your calculator to confirm that or use R command \texttt{dbinom(20, 100, 0.2)}.
+
+What is the expected mean of our 100 trials? Our expected value will be $N\mu$ which in our case is $100*0.2=20$. Let's derive these values using R. First we make a vector of possible values for k, the  number of baskets made. We could make anywhere from 0 to 100 baskets. Then we multiply each k by its probability and add them together following Equation 6.7 above for the mean of a discrete distribution. E is 20, as we expected. The plot in Figure \ref{fig-binom} shows the expected value at the center with the variance, calculated as $N\mu(1-\mu)$, which is 16 in our example. If you \texttt{sum(dbinom(k, 100, 0.2))} you get 1.0 of course because this represents the total probability space. 
+
+
+```{r}
+k <- 0:100  # possible number of baskets for 100 tries
+E <- sum(k * dbinom(k, 100, 0.2))
+v <- 100 * .2 * .8
+plot(k, dbinom(k, 100, 0.2))
+```
+
+
+Now suppose that I got really lucky when I shot my first 3 hoops and made all 3 baskets. This gives me $\mu=1.0$. It's unlikely I can keep this probability over the long haul. In fact, small sample sizes serve poorly as prior estimates of probabilities. Instead of a prior $\mu$ we really need a prior distribution over $\mu$. We want this prior distribution to be a \textit{conjugate} of our binomial distribution, meaning that we want it to be proportional to $\mu^x(1-\mu)^{1-x}$. The beta distribution is a good choice:
+
+\begin{equation}
+Beta(\mu|a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}
+\end{equation}
+
+In the above equation, the first term with the gammas serves as a normalizing constant to make sure that the total probability integrates to 1. The gamma function is commonly used in probability, and is an extension of the factorial function to the real numbers: $\Gamma(n) = (n-1)!$ and is also extended to complex numbers. The parameters a and b in our example will be the number of baskets made and missed, respectively. Beta distributions are commonly used in Bayesian approaches to represent prior knowledge of a parameter. The gamma function is defined as follows for positive real numbers or complex numbers with a positive real portion:
+
+\begin{equation}
+\Gamma(x) \equiv \int_{0}^{\infty} u^{x-1}e^{-u}du
+\end{equation}
+
+Let's look at the beta distribution for our example in R. We use the rbeta() function to create 100 random beta samples with shape parameters 20 and 80. Then we plot this curve as the black line in Figure \ref{fig-beta}. 
+Now suppose I take 15 more shots and make 5 of them. This will make a=30 and b=85. This updated curve is shown in red in Figure \ref{fig-beta}. The code below shows how to create the random beta samples with \texttt{rbeta(n, shape1, shape2)}. What will x look like? it is a vector of 100 random numbers drawn from a beta distribution with parameters a=20 and b=80. The mean will be 0.2 with the min around 0.1 and the max around 0.3.  The code then draws the original curve in black and the updated curve in red. The \texttt{par(new=TRUE))} is used when you want to plot over an existing plot. 
+
+```{r}
+x <- rbeta(100, 20, 80)
+curve(dbeta(x, 20, 80), xlab=" ", ylab=" ", xlim=c(0.1,0.6),
+     ylim=c(0,10)) 
+par(new=TRUE)
+curve(dbeta(x, 30, 85), xlab=" ", ylab=" ", xlim=c(0.1,0.6),
+    ylim=c(0,10), col="red")
+```
+
+In the code and plot above, we updated the original black curve by adding baskets to a and misses to b. Our new probability given our data will be:
+
+\begin{equation}
+p(x=1|D) = \frac{a + m}{a + b + m + l}
+\end{equation}
+
+where m represents the number of new baskets and l represents the number of new losses. 
+
+The equation above is a Bayesian estimate. In contrast, note that the MLE estimate is simply $m/N$. As m and l approach infinity, the Bayesian estimate converges to the MLE. For a finite data set, the posterior probability with be between the prior and the MLE. 
+
+
+### Multinomial distribution
+
+We can extend the binomial distribution to the case where we have variables that are not binary but can take on more than 2 values. This is a multinomial distribution.  The probability mass function of a multinomial distribution is: \index{probability!multinomial and dirichlet distributions}
+%
+\begin{equation}
+Multinomial(m_1,m_2,...,m_k|N,\mu) = \bigg(\frac{N}{m_1!m_2!...m_k!}\bigg)  \prod_{k=1}^K  \mu_k^{m_k}
+\end{equation}
+
+Where k indexes over the number of classes, K, and each of the $m_i$ represent the probability of that class, with the sum of all $m_i$ = 1. 
+
+%http://www.di.fc.ul.pt/~jpn/r/distributions/index.html#multinomial-distribution
+
+The iris data is an example of a multinomial distribution. There are 3 classes, and the data set has 50 examples of each class, an even distribution. If we want to put the 150 flowers in 3 boxes (classes) with even probability of being in each class, we could use the following R command. 
+
+
+```{r}
+rmultinom(n=10, size=150, prob=c(1/3, 1/3, 1/3))
+#     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#[1,]   56   44   51   55   54   47   49   60   61    42
+#[2,]   36   48   54   44   42   46   58   50   40    61
+#[3,]   58   58   45   51   54   57   43   40   49    47
+```
+
+The output above shows us 10 vectors, left to right, because we said "n=10". Our size is 150 for each of our iris flowers, and they have an even distribution. What we see in each column are distributions of the 150 flowers. Each column sums to 150. What we see in each row are the number of flowers in each box (class). The mean values for the 3 classes are 54, 50.1, and 45.9. 
+
+If we selected 6 flowers at random, what is the probability that there will be 1 flower from class 1, 2 flowers from class 2, and 3 flowers from class 3?
+
+```{r}
+dmultinom(x=c(1,2,3), prob=c(1/3, 1/3, 1/3))
+#[1] 0.08230453
+# check:
+#factorial(6)/(factorial(3)*factorial(2)*factorial(1))*
+#    0.333333^1*0.333333^2*0.333333^3
+#[1] 0.08230403
+```
+
+
+### Dirichlet
+
+The Dirichlet distribution is the conjugate prior of the multinomial distribution. The Dirichlet distribution has k parameters, $\alpha$, one for each class. So instead of X being 0 or 1, it can take on k values. In the following, $\alpha_0$ is the sum of all alphas. The Dirichlet distribution:
+
+\begin{equation}
+Dir(\mu|\alpha) = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)...\Gamma(\alpha_k)}\prod_{k=1}^K \mu_k^{\alpha_{k-1}}
+\end{equation}
+
+Consider a magic bag containing balls of K=3 colors: red, blue, yellow. For each of N draws, you place the ball back in the bag with an \textit{additional} ball of the same color. As N approaches infinity, the colored balls in the magically expanded bag will be $Dir(\alpha_1,\alpha_2,\alpha_3)$.
+
+You can think of the Dirichlet distribution as a multinomial factory. 
+
+```{r}
+library(MCMCpack) # for function rdirichlet()
+m <- rdirichlet(10, c(1, 1, 1))
+m
+#             [,1]      [,2]       [,3]
+# [1,] 0.015740801 0.3900641 0.59419507
+# [2,] 0.295649733 0.3622780 0.34207224
+# [3,] 0.464984547 0.4516325 0.08338300
+# [4,] 0.365099590 0.3074731 0.32742729
+# [5,] 0.065993901 0.2832624 0.65074371
+#. . .
+# [9,] 0.005201826 0.3076536 0.68714457
+#[10,] 0.326711959 0.4160060 0.25728208
+
+```
+
+```
+mean(m[,1])
+[1] 0.2139159
+mean(m[,2])
+[1] 0.3899679
+> mean(m[,3])
+[1] 0.3961162
+```
+
+We asked for 10 distributions with our alphas all equal to 1. The sum of every row, which is every distribution, is 1.0. The mean of the columns for these 10 examples are 0.2, 0.38, and 0.39. When run with 1000 examples the means were 0.34, 0.33 and 0.32. 
+
+

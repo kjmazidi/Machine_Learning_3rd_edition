@@ -1,0 +1,302 @@
+---
+title: "19-1-Data_Metrics"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 19
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+
+The purpose of this notebook is to collect in one place a demo of basic data exploration techniques of a single column that are used throughout the book, organized by:
+
+* Data exploration with Graphs
+* Measures of central tendency
+* Measures of variance
+
+Packages imported in this notebook:
+
+* MASS for the Boston data set
+
+```{r, warning = FALSE, message = FALSE}
+if (!require("MASS")){
+  install.packages("MASS")
+}
+library(MASS)
+attach(Boston) # normally we don't attach the data
+```
+
+Notice in the above that we attached the data. This allows us to refer to a column as *medv* for example instead of *Boston$medv*. Generally, we don't advise doing this because there could be name collisions for variables in different data sets with the same name. However, we are just using one data set for demonstration purposes here. 
+
+### Graphs for data exploration
+
+First, it's good to have a picture of the data by making a quick and simple graph. Basic graphs for data exploration of a quantitative variable include:
+* boxplot
+* histogram
+
+If we do a boxplot on crime, we see so many potential outliers that the box has become squashed. An outlier could be an error in the data collection and cleaning process, but in all likelihood there are really this many towns with very high crime around Boston. 
+
+
+```{r}
+boxplot(crim, main="Plot1: Crime")
+```
+
+
+Looking at a boxplot of median home value gives us a better-looking box. Although medv does have numerous suspected outliers, we get a good view of the box. The upper and lower edges of the box show the 75th and 25th percentiles, while the bold line through the box shows the median value. 
+
+The "whiskers" extending from the box vertically up and down represent the range of most of the data. R by default limits the whiskers from going beyond 1.5 times the IQR. MOVE THIS
+
+
+```{r}
+boxplot(medv, main="Plot2: Median Home Value")
+```
+
+
+
+The histogram
+
+A histogram plots frequency counts, giving a view of the data distribution. 
+
+```{r}
+hist(crim, main="Plot3: Histogram of crim")
+```
+
+
+
+
+## Measures of Central Tendency
+
+We will use the *crim* column in this section. This column gives a measure of crime per capita by town in the Boston data set. Remeber that you can type this following at the console to learn more about the data set:
+
+```
+?Boston
+```
+
+Mean, median, and mode are the most common measures of central tendency. 
+
+
+```{r}
+cat("The mean is: ", mean(crim))
+cat("\nThe median is: ", median(crim))
+cat("\nThe range is: ", range(crim))
+```
+
+Interestingly, Base R does not provide a statistical mode() function, but various libraries do, or you could write your own. The following shows one way to create a custom mode function. This function creates a frequency table using the table() function, then sorts them by frequency. We see that 50 is the most common medv (median home) value. 
+
+```{r}
+names(sort(-table(medv)))
+```
+
+For numeric data, the expected value is the same as the mean. For categorical data, if a numeric value can be associated with each level, the expected value will be the probability of occurrence. Consider a fair die with 6 sides. The expected value in this case is  3.5, which is determined by associating each side with a number (1 - 6) and multiplying it by its probability of occurring (1 / 6). Of course we will never get that expected value of 3.5 in real life. However if you rolled the die many many times, the average would tend towards 3.5.
+
+```{r}
+1 * 1/6 + 2 * 1/6 + 3 * 1/6 + 4 * 1/6 + 5 * 1/6 + 6 * 1/6
+```
+
+
+Here are some less common metrics that R provides:
+* compute trimmed mean by specifying a trim amount, n% each end
+
+```{r}
+cat("The trimmed mean is: ", mean(crim, trim=0.1)) # trim 10%
+cat("The quantiles are: ", quantile(crim))
+cat("The custom quantiles are: ", quantile(crim, c(.10, .5, .9))) #10th, 50th, 90th
+```
+
+Outlier detection can be achieved with a simple box plot, as shown in Plot 1 and repeated below. Circles above or below the plot are suspected outliers. There seem to be a lot of high crime areas but the majority are in a similar low-crime range. 
+
+```{r}
+boxplot(crim)
+```
+That's a lot of outliers, let's try a simple plot. If we just plot the points they will be all over the place because the X axis contains the index, which is really meaningless. In the code below, we sorted the crim colum, then plotted so we can see more clearly the points that are wildly out of the norm. 
+
+```{r}
+plot(sort(crim), main="Plot 4: Sorted crim")
+```
+
+
+## Measures of Variability
+
+Measures of variability is a metric for how close together or dispersed points are. Common metrics include:
+
+* deviation - how close is a given point to the average point; deviations in linear regression are called errors or residuals
+* standard deviation (sigma) - takes the square root of the variance, which puts the metric in terms of the deviation instead of the deviation squared
+* variance (sigma squared) - measures dispersion from the mean; calculated by squaring the difference between each point and the mean, adding these together, then dividing by the number of observations minus 1; variance is the square of the standard deviation
+
+
+
+First we get a summary of the crime column, which seems to be widely dispersed.
+
+```{r}
+summary(crim)
+```
+
+Then we look at the mean, the variance, and the standard deviation. 
+
+```{r}
+cat("The mean is: ", mean(crim))
+cat("\nThe standard deviation is: ", sd(crim))
+cat("\nThe variance is: ", var(crim))
+```
+How do we interpret these numbers?
+
+The summary of crim showed us that the range was from near 0 to 89. The mean is much closer to the minimum than the maximum, indicating that there are probably a handful of observations that are very high. The graphs we did above showed this. These few high points made for a large variance and standard deviation. 
+
+When considering measures of variability we have to keep in mind the units of the data, in the case of crim, it is per capita crime rate. The high variance and standard deviation tells us that some towns have very high crime compared to the others. Since standard deviation is put back in the original units, this makes it more interpretable than variance. 
+
+
+## N-1 and degrees of freedom
+
+It seems odd that we divide the sum of the squares by N-1 instead of N, the number of observations. Dividing by N-1 is called an unbiased estimator because it accounts for the fact that we are using the sample mean in the formula instead of a true population mean, which is unknown. This is sometimes explained as losing one *degree of freedom*. Dividing by N-1 is more important in a small data set. 
+
+## Correlation
+
+In machine learning, we often want to know if variables are correlated. We can use the cor() function or plot pairs() as shown in Section 2.4 earlier. For example, to see if x and y are correlated we can use this code: \texttt{cor(x, y)}.
+
+The default method is Pearson's, which measures the linear correlation between two variables. It ranges from $-1$ to $+1$ where the former is a perfect negative correlation, the latter is a perfect positive correlation, and values close to $0$ indicate little correlation. \index{metrics!correlation} The formula for Pearson's correlation is:
+
+\begin{equation}
+   \rho_{x,y} = Corr(x,y) = \frac{Cov(x,y)}{\sigma_x \sigma_y}
+\end{equation}
+
+We see that correlation is actually covariance, scaled to $[-1, 1]$. Covariance measures how changes in one variable are associated with changes in a second variable. The numbers can range wildly which is why the scaled correlation is often preferred. Here is the formula for covariance, where n is the number of data points: \index{metrics!covariance}
+
+\begin{equation}
+cov(x,y) = \frac{\sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})}{n-1}
+\end{equation}
+
+R has a built-in covariance function:
+
+```{r}
+cov(medv, rm)
+```
+
+R also has a correlation function, which is easire to comprehend since it's on a scale from -1 to +1. Variables with correlation near 0 are not correlated. Values near +1 are strongly correlated, and values near -1 are strongly negatively correlated (when one goes up, the other goes down).
+
+We see that the number of rooms and the median home value are highly correlated, near .7, which makes sense. A larger home generally costs more. 
+
+```{r}
+cor(medv, rm)
+```
+
+## Variance
+
+The variance of a distribution is a measure of dispersion, that is, how far the data is spread out from the average value. The variance of a distribution is also called its second moment, and is represented by $\sigma^2$. When we take it's square root, we have the standard deviation. 
+
+\begin{equation}
+\sigma^2 = E[(X - \mu)^2]
+\end{equation}
+
+R has built-in methods for the variance and the standard deviation. 
+
+```{r}
+var(medv)
+sd(medv)
+
+sd(medv)^2
+```
+
+
+## Estimates based on percentiles
+
+The *percentile* metric divides the samples into 100 groups. The *50th* percentile for example, divides the samples such that half are above and half are below that value. 
+
+The *IQR* (interquartile range) is the difference between the 75th and the 25th percentile, basically the middle of the data. 
+
+The term *quantile* refers to dividing the data in some manner, whereas *percentile* refers specifically into 100 equal parts. Here's how to get the 50th percentile:
+
+```{r}
+quantile(crim, .5)
+```
+
+We can also get several at once:
+
+```{r}
+quantile(crim, probs=c(.25, .5, .75, 1))
+```
+
+And we can compute the difference between the 75th and the 25th percentile, the IQR, which tells us how spread out the middle of the data is. IQR can be used to identify outliers. 
+
+```{r}
+IQR(crim)
+```
+
+## Graphs for Categorical Data
+
+This section will show basic graphs for categorical (factor) data, which include:
+
+* bar plot
+* pie chart
+
+The Boston data set's columns are all quantitative, so we will create a new variable that translates the quantitative *crim* column into a binary high/low factor. We won't attach this to the Boston data set, we'll just keep it a separate variable. 
+
+```{r}
+med_high <- median(crim)
+high_crim <- factor(ifelse(crim>med_high, TRUE, FALSE))
+plot(high_crim)
+```
+Using the median as a cut-off point wasn't very informative because (doh!) half of the observations will be above the cut-off and half will be below. Looking at the earlier plots of crim, we observe:
+
+* Plot 3 histogram showed a lot of homes under 10, a handful in the range 10 to 30, and a number over 30, but the long tail to the right makes it hard to see in the plot
+* Plot 4 the sorted crim, shows an elbow bend starting below 10 
+
+Next we add another variable for high, medium and low at admittedly arbitrary cut-off points of:
+
+* below 1 is low (recall that the median was 0.25)
+* above 1 to below 10 is medium
+* above 10 is high
+
+```{r}
+Boston$crim_level <- ifelse(crim>=10, 2, 0) # encode high and low
+Boston$crim_level <- ifelse(crim>1 & crim<10, 1, Boston$crim_level) # encode medium
+Boston$crim_level <- factor(Boston$crim_level)
+```
+
+Of course, these cut-offs were somewhat arbitrarily determined. A potential home buyer might prefer to err on the side of caution in determining what is low crime, a real estate agent might prefer to err in the opposite direction. 
+
+
+```{r}
+plot(Boston$crim_level)
+```
+A pie chart is another way to visualize the cut-off points we made in the data.
+
+```{r}
+tab <- table(Boston$crim_level)
+pie(tab, labels=c("low","medium","high"))
+```
+
+In the tax plot below, we see that there are a some neighborhoods with very high tax (>650) off to the right, which . The info provided about the Boston data set indicates that tax is the tax per $10k of home value. Running *sort(tax)* at the console shows a gradual increase over the obervations from 187 to 437, then a strange gap to 666 and finally a few at 711. Interesting tax policy. 
+
+The histogram of medv is closer to a normal curve, but skewed to the left. The median and mean medv values are fairly close, 21 and 22.5 which we would expect in a normal curve. When we sort(medv) at the console we see an interesting pattern in the data. The median home values go up through the 40s, then the last 16 observations are all 50.0. The value of 50 must reflect a cap on the value during data collection. Those 16 observations account for less than 3% of the data.
+
+Statisticians are concerned with the sample distributions (collected data) versus the population distribution (the ground truth out there). The idea of the *central limit theorem* is that the more data you collect in many samples, the closer your sample distribution will be to the population distribution. In machine learning, we ...
+
+
+```{r}
+opar <- par(no.readonly = TRUE) # save default parameters
+par(mfrow=c(1,2)) # put the graphs in a 1x2 display
+hist(tax)
+hist(medv)
+par(opar)
+```
+
+Another way to plot the distribution is use a density plot as shown next. This can be thought of as a smoothed histogram, but the underlying calculations create a kernel density estimate. A *kernel* is a small symmetric function (think normal distribution) placed around each data point. The shape and width of the kernel determines how much influence a point has on the overall probability density function (pdf). The kernels of these points are accummulated to form the kernel density estimate. 
+
+Looking at the Tax histogram above and the density plot below, you can see how the density plot smoothes out the data. 
+
+```{r}
+d <- density(tax, na.rm = TRUE)
+plot(d, main="Kernel Density Plot for Tax", xlab="Tax")
+polygon(d, col="wheat", border="slategrey")
+```
+
+
+

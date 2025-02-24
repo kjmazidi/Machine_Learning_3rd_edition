@@ -1,0 +1,217 @@
+---
+title: "19-3-Evaluation"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 19
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores some key statistics used in model evaluation, particularly linear models. 
+
+Package imported in this notebook:
+
+* MASS, for the Boston data set
+
+```{r, warning = FALSE, message = FALSE}
+if (!require("MASS")){
+  install.packages("MASS")
+}
+library(MASS)
+attach(Boston)
+```
+
+## Random sampling and Bias
+
+The data sets we have used throughout this volume are tidy, cleaned data for the most part. In scientific experiements, data must be collected, cleaned, then sampled. Experimenters will not know how similar the **sample data** that they collected is to some hypothetical **population data** that exists in the world of all possible data. It is possible that the sample contains a **sample bias**, meaning that it does not represent the unknown population that well. 
+
+In the previous chapter for this volume, we exampled taking a small sample from a larger data set in order to be able to process that data efficiently in memory and in time. 
+
+The Boston data is quite small, but let's suppose we want to take a random sample of 5 median home values, then find the mean:
+
+```{r}
+x <- sample(medv, 5, replace=TRUE)
+mean(x)
+```
+
+Each time you run the above block of code you will get a different sample mean because the mean will be based on a random selection of 5 homes. In other words, each sample has a bias. The medv column of the entire data set has a mean of 22.5 whereas the mean from the samples varies higher or lower. 
+
+## Central Limit Theorem
+
+The **central limit theorom** states that the means drawn from many samples will resemble a normal distribution, no matter what the underlying distribution actually is. Let's experiment with that.
+
+First, we build a vector of 50 sample means. 
+
+```{r}
+sample_means <- rep(0, 50)
+for (i in 1:50) {
+  sample_means[i] <- mean(sample(medv, 5, replace=TRUE))
+}
+```
+
+Then we make a histogram of the sample means, which is roughly in the shape of a normal distribution. As the number of sample means taken approaches infinity, the curve would more closely approximate a normal curve. 
+
+```{r}
+hist(sample_means)
+```
+## Standard error
+
+The variance of a distribution is also called its second moment, and is represented by $\sigma^2$. When we take it's square root, we have the standard deviation. 
+
+\begin{equation}
+\sigma^2 = E[(X - \mu)^2]
+\end{equation}
+
+R has methods for variance and standard deviation. 
+
+```{r}
+var(medv)
+sd(medv)
+
+sd(medv)^2
+```
+
+The standard error measures the variability of a metric. It takes the standard deviation and divides it by the square root of n, the number of samples. 
+
+\begin{equation}
+SE = \frac{sd}{sqrt(n)}
+\end{equation}
+
+Applying this to our vector of sample means:
+
+```{r}
+
+sd(sample_means)/sqrt(length((sample_means)))
+```
+
+As the sample size increases, the standard error tends to decrease. 
+
+This can be confusing:
+* the standard deviation measures the variability of a **variable**
+* the standard error measures the variability of a **metric**
+
+## Confidence Intervals, t-values and p-values
+
+A confidence interval is a range of values around a statistic (like the mean) which indicates how likely it is that the true population value falls within that range, with a certain level of confidence, usually expressed as a percentage (like 95%) - essentially showing the margin of error around an estimate based on a sample data set. 
+
+When we looked at the summary() output of a linear regression model, we saw many useful metrics concerning the model fit. For example, we might see something like this:
+
+```
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -87.51667    5.93694  -14.74 1.71e-09 ***
+height        3.45000    0.09114   37.85 1.09e-14 ***
+
+```
+
+The estimated coefficient for height and the intercept are given, along with standard error, t value and p value. The standard error gives us an estimate of variation in the coefficient estimate and can be used to predict a confidence interval for the coefficient. So the confidence interval for $w_1$ would be: $w_1 \pm  2\ \mathit{SE} (w_1)$. Standard errors are used for the hypothesis test on the coefficient, where the null hypothesis is that  there is no relationship between the predictor variable and the target variable. In other words, the true $w=0$. This is computed using the \index{metrics!t-statistic} t-statistic:
+
+\begin{equation}
+t = \frac{\hat{w}_1 - 0}{\textit{SE}(\hat{w}_1)}
+\end{equation}
+
+which measures the number of standard deviations our estimate coefficient $\hat{w}_1$ is from 0. Notice we put the hat symbol, $\hat{\ }$, over w to remind us that it is an estimate. The distribution of the t-statistic has a bell shape which makes it easy to compute the probability of observing a t-statistic larger in absolute value than what was computed, if the null hypothesis were true. This is the p-value. If the p-value is small we can reject the null hypothesis. Typical cut-off points for the p-value are 0.05 and 0.01. One caveat about p-values is that generally you will have more confidence in them if your data size is greater than 30. 
+
+### Compute a confidence interval
+
+Let's compute a confidence interval for the sample means we calculated earlier. The formula below will work for finding the confidence interval of our mean. We take the mean and add or subtract (for the higher and lower endpoints) the critical value times the standard error. 
+
+\begin{equation}
+CI = mean +/- (critical value) * SE
+\end{equation}
+
+The critical value above is the point on the distribution curve that defines the boundary of the interval, indicating how many standard deviations away from the mean you need to go to achieve your desired level of confidence (e.g., 95%) when estimating a population parameter. We can compute this with R's qt() method. 
+
+First, we need *n* the number of observations and *xbar* the mean. 
+
+```{r}
+n <- length(sample_means)
+xbar <- mean(medv)
+```
+
+The 95% confidence interval means that we have the middle 95%, giving .025 on either end. A 95% confidence interval means that if we repeated the experiment many times, there is a 95% chance that the true population mean would be in the confidence interval range. 
+
+```{r}
+margin_of_error <- qt(0.975, df=n-1) * sd(sample_means)/sqrt(n)
+```
+
+The lower bound of the CI is the mean minus the margin, while the upper bound is the mean plus the margin. 
+
+```{r}
+lower <- xbar - margin_of_error
+higher <- xbar + margin_of_error
+cat("CI is", lower, "to", higher)
+```
+
+
+### Standard normal distribution and z scores
+
+A **standard normal distribution** is a normal distribution in which the values have been normalized, or standardized in terms of standard deviations from the mean. That is, for each value, the mean is subtracted and then it is divided by the standard deviation. The transformed values are called z scores. 
+
+Let's calculate z-scores for our sample means:
+
+```{r}
+z_scores <- (sample_means - mean(sample_means)) / sd(sample_means)
+z_scores
+```
+Plotting the z scores shows they are much closer to a normal curve. 
+
+
+```{r}
+hist(z_scores)
+```
+
+The R function qqnorm() plots a Q-Q plot and the abline shows how close the z scores are to a normal distribution. 
+
+Note that converting our sample_means data into z_scores did not make it a perfect normal distribution. Rather, it put the data on the same scale as a normal distribution for comparison purposes. 
+
+The plot below should remind you of the residual plots we did in the Linear Regression chapter. 
+
+```{r}
+qqnorm(z_scores)
+abline(a=0, b=1)
+```
+
+
+
+## Student's t distribution
+
+Distributions of sample means are usually in a Student's t distribution, which is similar to a normal curve but with thicker and longer tails. This gives a higher probability to the tails of the curve. 
+
+We can use R's rt() function with a sample size of 1000 to plot a t distribution. The higher the sample size, the more it will look like a normal distribution with longer tails. 
+
+
+```{r}
+ypos <- rt(1000, n-1)
+hist(ypos)
+```
+
+```{r}
+result <- t.test(sample_means, mu = mean(sample_means))
+
+result 
+```
+The output above from the t test gives us a p-value of 1, negating the alternate hypothesis that the true mean is not the mean we input. The degrees of freedom is 49 (50 sample size - 1). 
+
+
+
+The t-distribution is typically used as a reference basis for the distribution of sample means. 
+
+In real life, you may get a "t-score" after a lab test. For example a t-score on a bone density scan represents how much your bone density deviates from the average bone density of a healthy young adult, expressed in standard deviations, where a higher negative t-score indicates a greater risk of bone fractures. 
+
+
+
+
+
+
+
+
+
