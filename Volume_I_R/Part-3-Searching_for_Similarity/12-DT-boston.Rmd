@@ -1,21 +1,57 @@
 ---
-title: "Decision Trees for Regression"
-author: "Karen Mazidi"
+title: "12-DT-boston"
+date: "`r Sys.Date()`"
 output:
   html_document:
-    df_print: paged
-  pdf_document: default
+    toc: true
+    theme: united
 ---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 12
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores decision tree regression. 
+
+Library imports: 
+
+* tree
+* MASS for the Boston data set
+* randomForest
+
+
+```{r, warning = FALSE, message = FALSE}
+
+if (!require(tree)){
+  install.packages("tree")
+}
+library("tree")
+
+if (!require(MASS)){
+  install.packages("MASS")
+}
+library("MASS")
+
+if (!require(randomForest)){
+  install.packages("randomForest")
+}
+library("randomForest")
+
+```
+
 
 ### Try linear regression on Boston
 
-We get a correlation of 0.9 and a rmse of 4.35.
+First we try linear regression as a baseline. Look at the correlation (corr_lm) and rmse_lm in the environment pane. 
 
 
 ```{r}
-library(tree)
-library(MASS)
 names(Boston)
+
 # divide into train and test
 set.seed(1234)
 i <- sample(nrow(Boston), 0.8*nrow(Boston), replace = FALSE)
@@ -30,7 +66,7 @@ rmse_lm <- sqrt(mean((pred-test$medv)^2))
 
 ### Using tree
 
-Correlation was 0.8433 and rmse was 5.14.
+Now compare the results (see Environment pane) with a decision tree. 
 
 ```{r}
 tree1 <- tree(medv~., data=train)
@@ -46,12 +82,16 @@ text(tree1, cex=0.5, pretty=0)
 
 ### cross validation
 
+See the chapter for further description. 
+
 ```{r}
 cv_tree <- cv.tree(tree1)
 plot(cv_tree$size, cv_tree$dev, type='b')
 ```
 
 ### prune the tree
+
+See the chapter for further description. 
 
 
 ```{r}
@@ -63,7 +103,7 @@ text(tree_pruned, pretty=0)
 
 ### test on the pruned tree
 
-The cor is now 0.845, very slightly above the unpruned tree but still lower than linear regression. The rmse is 5.18, very similar to the unpruned tree but higher than linear regression.
+See the chapter for further description. 
 
 In this case pruning did not improve results on the test data but the tree is simpler and easier to interpret.
 
@@ -79,7 +119,7 @@ rmse_pruned <- rmse_pruned <- sqrt(mean((pred_pruned-test$medv)^2))
 The importance=TRUE argument tells the algorithm to consider the importance of predictors. 
 
 ```{r}
-library(randomForest)
+# uses library(randomForest)
 set.seed(1234)
 rf <- randomForest(medv~., data=train, importance=TRUE)
 rf
@@ -88,7 +128,7 @@ rf
 
 ### predict on the random forest
 
-Now the correlation is much higher than even linear regression and the rmse is almost half.
+See the chapter for further description. 
 
 ```{r}
 pred_rf <- predict(rf, newdata=test)

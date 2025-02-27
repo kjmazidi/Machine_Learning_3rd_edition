@@ -16,22 +16,27 @@ This is the 3rd iteration of my machine learning book, significantly expanded in
 
 # Volume I: Machine Learning Using R
 
-## Part I: Data Exploration with R
+## Part 3: Searching for Similarity
 
-These notebooks accompany Chapter 2: Learning Standard R
+These notebooks accompany Chapter 10: kNN
 
-* 02-1 Data exploration with the airquality data set
-* 02-2 Data exploration with the titanic data set
-* 02-3 Data exploration with the Boston housing data set
-* 02-4 Control structures in R
+* 10-1 kNN classification
+* 10-2 kNN regression
+* 10-3 knn cross validation
 
-These notebooks accompany Chapter 3: Data Visualization in R
+These notebooks accompany Chapter 11: Clustering
 
-* 03-1 Visualization of one Qualitative or Quantitative Vector
-* 03-2 Visualization of two Qualitative or Quantitative Vectors
+* 11-1 clustering kmeans 1
+* 11-1 clustering kmeans 2
+* 11-3 clustering kmeans 3
+* 11-4 hierarchical clustering
 
-These notebooks accompany Chapter 4: Modern R
+These notebooks accompany Chapter 12: Decision Trees
 
-* 04-1 The Tidyverse
-* 04-2 The ggplot package
+* 12-1 Decision Trees for regression
+* 12-2 Decision Trees for classification
+
+This notebook accompanies Chapter 13: Feature Engineering
+
+* 13-PCA-LDA
 

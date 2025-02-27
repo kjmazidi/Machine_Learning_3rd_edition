@@ -1,20 +1,48 @@
 ---
-title: "Decision Tree with the Iris Data"
-author: "Karen Mazidi"
+title: "12-DT-iris"
+date: "`r Sys.Date()`"
 output:
   html_document:
-    df_print: paged
-  pdf_document: default
-  'pdf_document:': default
-editor_options:
-  chunk_output_type: inline
+    toc: true
+    theme: united
 ---
+
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 12
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores the rpart and tree implementations of decision trees on the iris data. 
+
+Library imports: 
+
+* rpart
+* tree
+
+
+```{r, warning = FALSE, message = FALSE}
+
+if (!require(rpart)){
+  install.packages("rpart")
+}
+library("rpart")
+
+
+if (!require(tree)){
+  install.packages("tree")
+}
+library("tree")
+```
+
 
 ### Using rpart
 
 
 ```{r}
-library(rpart)
+# uses library(rpart)
 tree_iris <- rpart(Species~., data=iris, method="class")
 tree_iris
 summary(tree_iris)
@@ -25,7 +53,7 @@ text(tree_iris, use.n=TRUE, all=TRUE, cex=.6)
 ### Using tree
 
 ```{r}
-library(tree)
+# uses library(tree)
 tree_iris2 <- tree(Species~., data=iris)
 tree_iris2
 summary(tree_iris2)
