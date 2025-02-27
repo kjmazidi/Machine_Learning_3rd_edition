@@ -1,23 +1,29 @@
 ---
+title: "11-1-cluster_kmeans_iris"
+date: "`r Sys.Date()`"
 output:
-  html_document: default
-  pdf_document: default
-editor_options: 
-  chunk_output_type: inline
+  html_document:
+    toc: true
+    theme: united
 ---
-# K-means clustering
-## Karen Mazidi
 
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 11
 
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
 
-### Getting set up
+###### Copyright KJG Mazidi
 
-We are using the built-in iris data set.
+### Introduction
+
+This notebook looks at the built-in data set **iris** as an introductory example of k-means clustering. 
+
+No special libraries are needed in this notebook. 
+
 
 ```{r}
-library(datasets)
 head(iris)
 ```
+### kmeans
 
 Now we try clustering with kmeans().
 
@@ -37,7 +43,7 @@ table(irisCluster$cluster, iris$Species)
 
 ```
 
-Plot the clusters.
+### Plot the clusters
 
 ```{r}
 

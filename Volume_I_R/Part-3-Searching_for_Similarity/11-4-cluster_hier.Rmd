@@ -1,20 +1,48 @@
 ---
-title: "Hierarchical Clustering"
-author: "Karen Mazidi"
+title: "11-4-cluster_hier"
+date: "`r Sys.Date()`"
 output:
   html_document:
-    df_print: paged
-  pdf_document: default
-editor_options:
-  chunk_output_type: inline
+    toc: true
+    theme: united
 ---
 
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 11
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores kmeans clustering, and is modified from Kabacoff, "R in Action", 2nd ed
+
+This notebook looks at the **nutrient** data set in package **flexclust**
+
+Library imports: 
+
+* flexclust
+* NbClust
+
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(flexclust)){
+  install.packages("flexclust")
+}
+library("flexclust")
+
+if (!require(NbClust)){
+  install.packages("NbClust")
+}
+library("NbClust")
+
+```
 ### Load the data
 
 This example uses the nutrient data set, which lists values for 5 nutrients (energy, protein, fat, calcium, iron) for 27 different meals. 
 
 ```{r}
-library(flexclust)
+# uses library(flexclust)
 data(nutrient)
 str(nutrient)
 ```

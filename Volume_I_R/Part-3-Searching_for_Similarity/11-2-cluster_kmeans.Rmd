@@ -1,12 +1,50 @@
 ---
+title: "11-2-cluster_kmeans"
+date: "`r Sys.Date()`"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    toc: true
+    theme: united
 ---
-# Clustering
-### Karen Mazidi
 
-Modified from Kabacoff, "R in Action", 2nd ed
+### Code Accompanying ***The Machine Learning Handbooks***, Volume I, Chapter 11
+
+#### Book pdf is available on the GitHub repo: https://github.com/kjmazidi/Machine_Learning_3rd_edition
+
+###### Copyright KJG Mazidi
+
+### Introduction
+
+This notebook explores kmeans clustering, and is modified from Kabacoff, "R in Action", 2nd ed
+
+This notebook looks at the **wine** data set in package **rattle**
+
+Library imports: 
+
+* flexclust
+* NbClust
+* rattle 
+
+
+```{r, warning = FALSE, message = FALSE}
+if (!require(flexclust)){
+  install.packages("flexclust")
+}
+library("flexclust")
+
+if (!require(NbClust)){
+  install.packages("NbClust")
+}
+library("NbClust")
+
+if (!require(rattle)){
+  install.packages("rattle")
+}
+library("rattle")
+
+```
+
+
 
 ## K-means
 
@@ -44,7 +82,7 @@ Use the NbClust() function to help determine the best number of clusters.
 In the within-groups plot, we see an "elbow" around 3, suggesting that 3 clusters is a good choice. 
 
 ```{r}
-library(NbClust)
+# uses library(NbClust)
 set.seed(1234)
 nc <- NbClust(df, min.nc=2, max.nc=15, method="kmeans")
 table(nc$Best.n[1,])
@@ -53,7 +91,7 @@ barplot(table(nc$Best.n[1,]),
         main="Number of Clusters Chosen by 26 Criteria")
 ```
 
-## KMeans
+## Number of clusters
 
 Fit the model using the kmeans() function. We set a seed first so we get reproducible results. 
 
@@ -90,7 +128,7 @@ We can quantify the agreement between the type and the cluster using an adjusted
 The results below show very good agreement!
 
 ```{r}
-library(flexclust)
+# uses library(flexclust)
 randIndex(ct.km)
 
 ```
