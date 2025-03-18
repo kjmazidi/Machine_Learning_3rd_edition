@@ -1,7 +1,6 @@
 ## Part 1 Python Basics
 
 See the accompanying videos here: https://www.youtube.com/c/JaniceMazidi
-Check out the Python Fundamentals playlist. 
 
 ### This series of 10 notebooks provides an introduction to Python.
 
@@ -15,6 +14,6 @@ Check out the Python Fundamentals playlist.
 * 06 - Tuples and Sets
 * 07 - Dicts
 * 08 - Classes
-* 09 - Wrapping Up
+* 09 - Exceptions and Regex
 
 The folder sample_progs includes sample programs you can run in an IDE.
