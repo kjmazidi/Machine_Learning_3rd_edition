@@ -4,4 +4,4 @@ Notebooks demonstrating basic features of:
 * pandas
 * seaborn
 * sklearn
-* along with some data cleaning examples
+
