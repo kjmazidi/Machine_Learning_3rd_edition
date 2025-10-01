@@ -13,5 +13,7 @@ This is the 3rd iteration of my machine learning book, significantly expanded in
 
 - Volume IV is all about PyTorch, which is rapidly becoming the most popular deep learning platform
 
-Work on Volume 1 began January 2025. The expected completion date for all 4 volumes is December 2025. 
+The first edition of Volume I is available in this folder, see file "ML-Vol-I" 
+If you find the book helpful, please consider a donation to: https://www.paypal.me/karenjanicemazidi
 
+Thanks!
